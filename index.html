@@ -41,33 +41,34 @@ section{padding:88px 0}
 .btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5)}
 .btn-ghost:hover{border-color:#fff}
 
-/* ---------- accent-wall section backgrounds ---------- */
-.wall-slats-dark{ /* vertical walnut slats with warm LED glow, like our media walls */
-  background:
-    linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.35) 40%,rgba(0,0,0,.6)),
-    repeating-linear-gradient(90deg,#3a2a1c 0 5px,#4d3824 5px 9px,#2a1d12 9px 14px,#121212 14px 19px);
+/* ---------- accent-wall section backgrounds (real photo textures) ---------- */
+.wall-slats-dark{ /* real walnut slat wall from our media wall install */
+  background:linear-gradient(180deg,rgba(12,9,6,.78),rgba(12,9,6,.52) 45%,rgba(12,9,6,.8)),url("images/tex-slats.jpg");
+  background-size:auto,280px 100%;
   color:#fff;
 }
-.wall-shiplap-cream{ /* horizontal shiplap, painted cream */
-  background:
-    repeating-linear-gradient(180deg,rgba(23,20,15,0) 0 55px,rgba(23,20,15,.08) 55px 57px,rgba(255,255,255,.5) 57px 58px),
-    var(--paper);
+.wall-shiplap-cream{ /* real shiplap texture, painted cream */
+  background-image:linear-gradient(rgba(252,248,238,.45),rgba(252,248,238,.45)),url("images/tex-ship-light.jpg");
+  background-color:#eadfc6;
+  background-size:auto,1400px 264px;
+  background-blend-mode:normal,multiply;
 }
-.wall-batten-olive{ /* board & batten, olive green */
-  background:
-    repeating-linear-gradient(90deg,rgba(0,0,0,0) 0 92px,rgba(0,0,0,.22) 92px 94px,rgba(255,255,255,.07) 94px 100px,rgba(0,0,0,.14) 100px 102px),
-    linear-gradient(180deg,#5d6650,#525a45);
+.wall-batten-olive{ /* real shiplap texture, painted olive green */
+  background-image:linear-gradient(rgba(24,27,19,.3),rgba(24,27,19,.3)),url("images/tex-ship-light.jpg");
+  background-color:#5d6650;
+  background-size:auto,1400px 264px;
+  background-blend-mode:normal,multiply;
   color:#fff;
 }
-.wall-shiplap-gray{ /* horizontal shiplap, matte gray */
-  background:
-    repeating-linear-gradient(180deg,rgba(0,0,0,0) 0 55px,rgba(0,0,0,.14) 55px 57px,rgba(255,255,255,.18) 57px 58px),
-    #a7abae;
+.wall-shiplap-gray{ /* real shiplap texture, painted matte gray */
+  background-image:linear-gradient(rgba(255,255,255,.1),rgba(255,255,255,.1)),url("images/tex-ship-light.jpg");
+  background-color:#9da1a4;
+  background-size:auto,1400px 264px;
+  background-blend-mode:normal,multiply;
 }
-.wall-shiplap-black{ /* horizontal shiplap, matte black */
-  background:
-    repeating-linear-gradient(180deg,rgba(255,255,255,0) 0 55px,rgba(0,0,0,.55) 55px 57px,rgba(255,255,255,.05) 57px 58px),
-    #1d1b18;
+.wall-shiplap-black{ /* real matte black shiplap from our install */
+  background:linear-gradient(rgba(10,10,10,.4),rgba(10,10,10,.5)),url("images/tex-black.jpg");
+  background-size:auto,1400px 264px;
   color:#fff;
 }
 
@@ -81,6 +82,7 @@ header{position:sticky;top:0;z-index:50;background:rgba(23,20,15,.92);backdrop-f
 .nav-links a:hover{opacity:1;color:var(--ember)}
 .nav-phone{font-family:'Oswald',sans-serif;font-weight:600;letter-spacing:.05em;text-decoration:none;color:var(--ember)}
 @media(max-width:820px){.nav-links{display:none}}
+@media(max-width:480px){.logo{font-size:.88rem}.nav-phone{font-size:.88rem}.wrap{padding:0 18px}}
 
 /* ---------- hero / builder ---------- */
 .hero{padding:64px 0 96px}
@@ -94,29 +96,28 @@ header{position:sticky;top:0;z-index:50;background:rgba(23,20,15,.92);backdrop-f
 /* preview room */
 .room-card{background:#0f0d0b;border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:14px;box-shadow:0 30px 60px rgba(0,0,0,.45)}
 .room{position:relative;aspect-ratio:4/3;border-radius:6px;overflow:hidden;background:#e9e5dc}
+.room::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:6;background:radial-gradient(135% 105% at 50% 28%,transparent 55%,rgba(0,0,0,.22))}
 .room-wall{position:absolute;inset:0 0 18% 0;transition:background .3s}
-.room-floor{position:absolute;left:0;right:0;bottom:0;height:18%;background:linear-gradient(180deg,rgba(0,0,0,.12),rgba(0,0,0,.32)),repeating-linear-gradient(90deg,#9a6b40 0 46px,#916337 46px 47px,#a1734a 47px 92px,#875b34 92px 93px)}
+.room-floor{position:absolute;left:0;right:0;bottom:0;height:18%;background:linear-gradient(180deg,rgba(0,0,0,.28),rgba(0,0,0,0) 30%),url("images/tex-floor.jpg");background-size:auto,auto 115%}
 .room-base{position:absolute;left:0;right:0;bottom:18%;height:2.2%;background:#f6f4ef;box-shadow:0 1px 2px rgba(0,0,0,.25)}
 .accent-wall{position:absolute;left:16%;right:16%;top:6%;bottom:18%;transition:background .3s;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12), 12px 0 24px -12px rgba(0,0,0,.35), -12px 0 24px -12px rgba(0,0,0,.35)}
-.accent-wall.glow-edges::before,.accent-wall.glow-edges::after{content:"";position:absolute;top:2%;bottom:2%;width:3px;background:#ffb45e;border-radius:3px;box-shadow:0 0 14px 5px rgba(255,166,66,.85);z-index:4}
+.wall-grain{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.45;mix-blend-mode:soft-light;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E")}
+.wall-shade{position:absolute;inset:0;z-index:2;pointer-events:none;background:
+  radial-gradient(120% 90% at 50% -10%,rgba(255,255,255,.16),transparent 55%),
+  radial-gradient(150% 130% at 50% 118%,rgba(0,0,0,.3),transparent 58%),
+  linear-gradient(90deg,rgba(0,0,0,.16),transparent 12% 88%,rgba(0,0,0,.16))}
+.accent-wall.glow-edges::before,.accent-wall.glow-edges::after{content:"";position:absolute;top:2%;bottom:2%;width:3px;background:#ffb45e;border-radius:3px;box-shadow:0 0 14px 5px rgba(255,166,66,.85);z-index:5}
 .accent-wall.glow-edges::before{left:3.5%}
 .accent-wall.glow-edges::after{right:3.5%}
-.tv{position:absolute;left:50%;transform:translateX(-50%);top:12%;height:34%;width:52%;background:linear-gradient(115deg,#101114 55%,#1c2027 58%,#101114 62%);border:2px solid #050505;border-radius:3px;box-shadow:0 8px 22px rgba(0,0,0,.5);z-index:3;transition:width .3s,opacity .3s}
-.mantel{position:absolute;left:14%;right:14%;top:52%;height:6.5%;border-radius:2px;z-index:3;box-shadow:0 10px 16px -6px rgba(0,0,0,.55);transition:background .3s,opacity .3s}
-.mantel.glow-under{box-shadow:0 10px 16px -6px rgba(0,0,0,.55),0 14px 22px -4px rgba(255,166,66,.75)}
-.fireplace{position:absolute;left:50%;transform:translateX(-50%);top:70%;height:11%;width:56%;background:#0a0a0a;border:2px solid #000;border-radius:3px;overflow:hidden;z-index:3;transition:width .3s,opacity .3s}
-.flames{position:absolute;inset:28% 4% 18% 4%;border-radius:2px;filter:blur(1.5px);background:
-  radial-gradient(18% 90% at 10% 100%, var(--fl1) 0%, transparent 70%),
-  radial-gradient(16% 100% at 25% 100%, var(--fl2) 0%, transparent 72%),
-  radial-gradient(20% 85% at 40% 100%, var(--fl1) 0%, transparent 70%),
-  radial-gradient(15% 100% at 55% 100%, var(--fl2) 0%, transparent 70%),
-  radial-gradient(19% 90% at 70% 100%, var(--fl1) 0%, transparent 72%),
-  radial-gradient(16% 95% at 85% 100%, var(--fl2) 0%, transparent 70%),
-  radial-gradient(20% 80% at 96% 100%, var(--fl1) 0%, transparent 70%);
-  animation:flicker 1.6s ease-in-out infinite alternate}
-.fireplace .embers{position:absolute;left:3%;right:3%;bottom:8%;height:16%;border-radius:2px;background:var(--emb);filter:blur(1px);opacity:.9}
-@keyframes flicker{0%{transform:scaleY(1) translateY(0);opacity:.92}45%{transform:scaleY(1.12) translateY(-2%);opacity:1}100%{transform:scaleY(.94) translateY(1%);opacity:.88}}
-@media (prefers-reduced-motion: reduce){.flames{animation:none}html{scroll-behavior:auto}}
+.prod{position:absolute;left:50%;transform:translateX(-50%);height:auto;z-index:3;transition:width .3s,top .3s,opacity .3s,filter .3s;border-radius:2px}
+.tv-img{top:12.5%;width:54%;box-shadow:0 14px 30px rgba(0,0,0,.45)}
+.mantel-img{top:52%;width:84%;z-index:4;box-shadow:0 12px 22px -8px rgba(0,0,0,.6)}
+.mantel-img.glow-under{box-shadow:0 12px 22px -8px rgba(0,0,0,.6),0 18px 28px -6px rgba(255,166,66,.8)}
+.fp-wrap{position:absolute;left:50%;transform:translateX(-50%);top:67.5%;width:56%;z-index:3;transition:width .3s,top .3s,opacity .3s}
+.fp-wrap img{width:100%;height:auto;display:block;border-radius:2px;box-shadow:0 10px 26px rgba(0,0,0,.5);transition:filter .3s}
+.fp-glow{position:absolute;inset:25% -8% -22% -8%;pointer-events:none;filter:blur(8px);background:radial-gradient(62% 72% at 50% 60%,var(--glowc,rgba(255,140,40,.38)),transparent 72%);animation:fglow 1.8s ease-in-out infinite alternate}
+@keyframes fglow{from{opacity:.5}to{opacity:1}}
+@media (prefers-reduced-motion: reduce){.fp-glow{animation:none}html{scroll-behavior:auto}}
 .hidden{opacity:0 !important}
 .room-caption{display:flex;justify-content:space-between;align-items:center;margin-top:12px;color:#cfc8bb;font-size:.8rem}
 .room-caption .display{letter-spacing:.18em;font-size:.72rem;color:#ffb45e}
@@ -237,11 +238,13 @@ footer a{color:var(--ember);text-decoration:none}
           <div class="room-base"></div>
           <div class="room-floor"></div>
           <div class="accent-wall" id="accentWall">
-            <div class="tv" id="tv"></div>
-            <div class="mantel" id="mantel"></div>
-            <div class="fireplace" id="fireplace">
-              <div class="flames" id="flames"></div>
-              <div class="embers"></div>
+            <div class="wall-grain"></div>
+            <div class="wall-shade"></div>
+            <img class="prod tv-img" id="tv" src="images/tv.jpg" alt="Mounted TV">
+            <img class="prod mantel-img" id="mantel" src="images/mantel-slate.jpg" alt="Floating mantel">
+            <div class="fp-wrap" id="fireplace">
+              <img id="fpImg" src="images/fireplace-ember.jpg" alt="Recessed electric fireplace">
+              <div class="fp-glow" id="fpGlow"></div>
             </div>
           </div>
         </div>
@@ -495,61 +498,72 @@ footer a{color:var(--ember);text-decoration:none}
   var state={style:"slats",board:"walnut",paint:"white",mantel:"slate",fireplace:"60",flame:"orange",tv:"65",addons:[]};
 
   var boardColors={
-    black:{base:"#232323",dark:"rgba(255,255,255,.06)",groove:"rgba(0,0,0,.6)",label:"Matte Black"},
-    white:{base:"#f5f3ee",dark:"rgba(0,0,0,.07)",groove:"rgba(0,0,0,.13)",label:"White"},
-    gray:{base:"#8e9194",dark:"rgba(255,255,255,.12)",groove:"rgba(0,0,0,.22)",label:"Matte Gray"},
-    olive:{base:"#59614a",dark:"rgba(255,255,255,.08)",groove:"rgba(0,0,0,.3)",label:"Olive Green"},
-    walnut:{base:"#8a5a33",dark:"#a06a3d",groove:"#161310",label:"Natural Walnut"}
+    black:{tint:"#2f2f2f",label:"Matte Black"},
+    white:{tint:"#f0ede6",label:"White"},
+    gray:{tint:"#8e9194",label:"Matte Gray"},
+    olive:{tint:"#5a624b",label:"Olive Green"},
+    walnut:{tint:"#7a5230",label:"Natural Walnut"}
   };
   var paints={white:"#f2efe8",greige:"#d8d2c4",blue:"#cfdde4",sage:"#cdd4c5"};
   var paintLabels={white:"Bright White",greige:"Greige",blue:"Light Blue",sage:"Sage"};
-  var mantels={
-    slate:"linear-gradient(180deg,#7b7772,#57534e 60%,#6a6660)",
-    espresso:"linear-gradient(180deg,#54413a,#33221b 60%,#46342c)",
-    black:"linear-gradient(180deg,#26231f,#121110 60%,#1d1b18)",
-    oak:"linear-gradient(180deg,#b8865a,#8f6238 60%,#a5764a)"
+  var mantelFilters={
+    slate:"none",
+    espresso:"sepia(.5) saturate(1.5) brightness(.55)",
+    black:"brightness(.3) saturate(.6)",
+    oak:"sepia(.65) saturate(1.7) brightness(1.3)"
   };
   var mantelLabels={slate:"Slate",espresso:"Espresso",black:"Black",oak:"Natural Oak",none:"No mantel"};
   var styleLabels={slats:"Vertical slats",shiplap:"Horizontal shiplap",batten:"Board & batten"};
   var flames={
-    orange:{f1:"#ff9a2e",f2:"#ffd27a",emb:"linear-gradient(90deg,#ff8c1a,#ffb347,#ff8c1a)"},
-    blue:{f1:"#4f8cff",f2:"#a8ccff",emb:"linear-gradient(90deg,#3b6fe0,#7fb0ff,#3b6fe0)"},
-    multi:{f1:"#ff7a2e",f2:"#7f8cff",emb:"linear-gradient(90deg,#ff8c1a,#b06bff,#4f8cff,#ff8c1a)"}
+    orange:{src:"images/fireplace-ember.jpg",filter:"sepia(.85) saturate(2.4) hue-rotate(-10deg) brightness(1.05)",glow:"rgba(255,140,40,.4)"},
+    blue:{src:"images/fireplace-cool.jpg",filter:"saturate(1.25) hue-rotate(8deg)",glow:"rgba(100,140,255,.38)"},
+    multi:{src:"images/fireplace-ember.jpg",filter:"none",glow:"rgba(255,150,90,.35)"}
   };
-  var flameLabels={orange:"orange flame",blue:"blue flame",multi:"multicolor flame"};
-  var tvWidths={55:"44%",65:"52%",75:"60%",85:"68%"};
-  var fpWidths={50:"48%",60:"58%",74:"70%"};
+  var flameLabels={orange:"orange flame",blue:"cool blue flame",multi:"multicolor flame"};
+  var tvPos={55:{w:"46%",t:"18%"},65:{w:"54%",t:"12.5%"},75:{w:"62%",t:"7%"},85:{w:"70%",t:"1.5%"}};
+  var fpPos={50:{w:"46%",t:"70%"},60:{w:"56%",t:"67.5%"},74:{w:"66%",t:"64.5%"}};
 
   var el=function(id){return document.getElementById(id)};
   var accentWall=el("accentWall"),roomWall=el("roomWall"),tv=el("tv"),mantel=el("mantel"),
-      fireplace=el("fireplace"),flamesEl=el("flames"),summary=el("summaryLine");
+      fireplace=el("fireplace"),fpImg=el("fpImg"),fpGlow=el("fpGlow"),summary=el("summaryLine");
 
-  function wallBackground(){
-    var c=boardColors[state.board];
+  function applyWall(){
+    var s=accentWall.style,tint=boardColors[state.board].tint;
     if(state.style==="slats"){
       if(state.board==="walnut"){
-        return "repeating-linear-gradient(90deg,#3a2a1c 0 4px,#8a5a33 4px 7px,#6b4326 7px 10px,#161310 10px 14px)";
+        s.backgroundImage='url("images/tex-slats.jpg")';s.backgroundColor="#fff";s.backgroundBlendMode="normal";
+      }else{
+        s.backgroundImage='url("images/tex-slats-light.jpg")';s.backgroundColor=tint;s.backgroundBlendMode="multiply";
       }
-      return "repeating-linear-gradient(90deg,"+c.base+" 0 10px,"+c.dark+" 10px 11px,"+c.groove+" 11px 14px)";
+      s.backgroundSize="62% auto";
+    }else if(state.style==="shiplap"){
+      if(state.board==="black"){
+        s.backgroundImage='url("images/tex-black.jpg")';s.backgroundColor="#fff";s.backgroundBlendMode="normal";
+      }else{
+        s.backgroundImage='url("images/tex-ship-light.jpg")';s.backgroundColor=tint;s.backgroundBlendMode="multiply";
+      }
+      s.backgroundSize="150% auto";
+    }else{ /* board & batten: beveled battens over painted base, grain overlay adds texture */
+      s.backgroundImage="repeating-linear-gradient(90deg,rgba(255,255,255,.12) 0 2px,rgba(0,0,0,0) 2px 9px,rgba(0,0,0,.28) 9px 11px,rgba(0,0,0,0) 11px 64px),linear-gradient(180deg,rgba(255,255,255,.06),rgba(0,0,0,.08))";
+      s.backgroundColor=tint;s.backgroundBlendMode="normal";s.backgroundSize="auto";
     }
-    if(state.style==="shiplap"){
-      return "repeating-linear-gradient(180deg,"+c.base+" 0 34px,"+c.groove+" 34px 36px)";
-    }
-    /* board & batten */
-    return "repeating-linear-gradient(90deg,transparent 0 46px,"+c.groove+" 46px 47px,"+c.dark+" 47px 52px,"+c.groove+" 52px 53px),linear-gradient(180deg,"+c.base+","+c.base+")";
   }
 
   function render(){
-    accentWall.style.background=wallBackground();
+    applyWall();
     roomWall.style.background=paints[state.paint];
 
-    if(state.tv==="none"){tv.classList.add("hidden")}else{tv.classList.remove("hidden");tv.style.width=tvWidths[state.tv]}
-    if(state.mantel==="none"){mantel.classList.add("hidden")}else{mantel.classList.remove("hidden");mantel.style.background=mantels[state.mantel]}
+    if(state.tv==="none"){tv.classList.add("hidden")}else{
+      tv.classList.remove("hidden");tv.style.width=tvPos[state.tv].w;tv.style.top=tvPos[state.tv].t}
+    if(state.mantel==="none"){mantel.classList.add("hidden")}else{
+      mantel.classList.remove("hidden");mantel.style.filter=mantelFilters[state.mantel]}
     if(state.fireplace==="none"){fireplace.classList.add("hidden")}else{
-      fireplace.classList.remove("hidden");fireplace.style.width=fpWidths[state.fireplace];
+      fireplace.classList.remove("hidden");
+      fireplace.style.width=fpPos[state.fireplace].w;fireplace.style.top=fpPos[state.fireplace].t;
       var fl=flames[state.flame];
-      flamesEl.style.setProperty("--fl1",fl.f1);flamesEl.style.setProperty("--fl2",fl.f2);
-      fireplace.querySelector(".embers").style.background=fl.emb;
+      if(fpImg.getAttribute("src")!==fl.src)fpImg.setAttribute("src",fl.src);
+      fpImg.style.filter=fl.filter;
+      fpGlow.style.setProperty("--glowc",fl.glow);
     }
     accentWall.classList.toggle("glow-edges",state.addons.indexOf("edge")>-1);
     mantel.classList.toggle("glow-under",state.addons.indexOf("mantelGlow")>-1 && state.mantel!=="none");
