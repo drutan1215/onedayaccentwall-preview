@@ -41,30 +41,28 @@ section{padding:88px 0}
 .btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5)}
 .btn-ghost:hover{border-color:#fff}
 
-/* ---------- accent-wall section backgrounds (real photo textures) ---------- */
-.wall-slats-dark{ /* real walnut slat wall from our media wall install */
-  background:linear-gradient(180deg,rgba(12,9,6,.78),rgba(12,9,6,.52) 45%,rgba(12,9,6,.8)),url("images/tex-slats.jpg");
-  background-size:auto,280px 100%;
+/* ---------- accent-wall section backgrounds (real wall photos) ---------- */
+.wall-slats-dark{ /* black slat wall */
+  background:linear-gradient(180deg,rgba(8,8,9,.62),rgba(8,8,9,.38) 45%,rgba(8,8,9,.68)),url("images/bg-blackslats.jpg") center/cover;
   color:#fff;
 }
-.wall-shiplap-cream{ /* real shiplap texture, painted cream */
-  background-image:linear-gradient(rgba(252,248,238,.45),rgba(252,248,238,.45)),url("images/tex-ship-light.jpg");
-  background-color:#eadfc6;
-  background-size:auto,1400px 264px;
-  background-blend-mode:normal,multiply;
+.wall-shiplap-cream{ /* white shiplap, warm cream tint */
+  background-image:url("images/bg-shiplap.jpg");
+  background-color:#f0e9d8;
+  background-size:cover;
+  background-position:center;
+  background-blend-mode:multiply;
 }
-.wall-batten-olive{ /* real shiplap texture, painted olive green */
-  background-image:linear-gradient(rgba(24,27,19,.3),rgba(24,27,19,.3)),url("images/tex-ship-light.jpg");
-  background-color:#5d6650;
-  background-size:auto,1400px 264px;
-  background-blend-mode:normal,multiply;
+.wall-batten-olive{ /* olive green board & batten */
+  background:linear-gradient(rgba(20,24,15,.22),rgba(20,24,15,.32)),url("images/bg-greenbatten.jpg") center/cover;
   color:#fff;
 }
-.wall-shiplap-gray{ /* real shiplap texture, painted matte gray */
-  background-image:linear-gradient(rgba(255,255,255,.1),rgba(255,255,255,.1)),url("images/tex-ship-light.jpg");
-  background-color:#9da1a4;
-  background-size:auto,1400px 264px;
-  background-blend-mode:normal,multiply;
+.wall-shiplap-gray{ /* white shiplap tinted matte gray */
+  background-image:url("images/bg-shiplap.jpg");
+  background-color:#a4a8ab;
+  background-size:cover;
+  background-position:center;
+  background-blend-mode:multiply;
 }
 .wall-shiplap-black{ /* real matte black shiplap from our install */
   background:linear-gradient(rgba(10,10,10,.4),rgba(10,10,10,.5)),url("images/tex-black.jpg");
@@ -111,8 +109,8 @@ header{position:sticky;top:0;z-index:50;background:rgba(23,20,15,.92);backdrop-f
 .accent-wall.glow-edges::after{right:3.5%}
 .prod{position:absolute;left:50%;transform:translateX(-50%);height:auto;z-index:3;transition:width .3s,top .3s,opacity .3s,filter .3s;border-radius:2px}
 .tv-img{top:12.5%;width:54%;box-shadow:0 14px 30px rgba(0,0,0,.45)}
-.mantel-img{top:52%;width:82%;z-index:4;box-shadow:0 12px 22px -8px rgba(0,0,0,.6)}
-.mantel-img.glow-under{box-shadow:0 12px 22px -8px rgba(0,0,0,.6),0 18px 28px -6px rgba(255,166,66,.8)}
+.mantel-img{top:52%;width:82%;z-index:4;filter:drop-shadow(0 10px 9px rgba(0,0,0,.45))}
+.mantel-img.glow-under{filter:drop-shadow(0 10px 9px rgba(0,0,0,.45)) drop-shadow(0 14px 14px rgba(255,166,66,.75))}
 .fp-wrap{position:absolute;left:50%;transform:translateX(-50%);top:67.5%;width:56%;z-index:3;transition:width .3s,top .3s,opacity .3s}
 .fp-wrap img{width:100%;height:auto;display:block;border-radius:2px;box-shadow:0 10px 26px rgba(0,0,0,.5)}
 .fp-tint{position:absolute;inset:0;z-index:1;mix-blend-mode:hue;pointer-events:none;border-radius:2px;display:none}
@@ -243,7 +241,7 @@ footer a{color:var(--ember);text-decoration:none}
             <div class="wall-grain"></div>
             <div class="wall-shade"></div>
             <img class="prod tv-img" id="tv" src="images/tv.jpg" alt="Mounted TV">
-            <img class="prod mantel-img" id="mantel" src="images/mantel-slate.jpg" alt="Floating mantel">
+            <img class="prod mantel-img" id="mantel" src="images/mantel-slate.png" alt="Floating mantel">
             <div class="fp-wrap" id="fireplace">
               <img id="fpImg" src="images/fireplace-60.jpg" alt="Recessed electric fireplace">
               <div class="fp-tint" id="fpTint"></div>
@@ -418,10 +416,10 @@ footer a{color:var(--ember);text-decoration:none}
       <div>
         <h3 style="font-size:1rem;letter-spacing:.1em;margin-bottom:14px">Floating Mantels</h3>
         <div class="opt-list">
-          <div class="opt-item"><img class="opt-dot" src="images/mantel-slate.jpg" alt="Slate mantel" loading="lazy"><div><b>Slate</b><span>Weathered gray, wire-brushed grain.</span></div></div>
-          <div class="opt-item"><img class="opt-dot" src="images/mantel-espresso.jpg" alt="Espresso mantel" loading="lazy"><div><b>Espresso</b><span>Deep roasted brown, satin finish.</span></div></div>
-          <div class="opt-item"><img class="opt-dot" src="images/mantel-black.jpg" alt="Black mantel" loading="lazy"><div><b>Black</b><span>Sleek and architectural.</span></div></div>
-          <div class="opt-item"><img class="opt-dot" src="images/mantel-oak.jpg" alt="Natural Oak mantel" loading="lazy"><div><b>Natural Oak</b><span>Warm honey tone, visible grain.</span></div></div>
+          <div class="opt-item"><img class="opt-dot" src="images/mantel-slate.png" alt="Slate mantel" loading="lazy"><div><b>Slate</b><span>Weathered gray, wire-brushed grain.</span></div></div>
+          <div class="opt-item"><img class="opt-dot" src="images/mantel-espresso.png" alt="Espresso mantel" loading="lazy"><div><b>Espresso</b><span>Deep roasted brown, satin finish.</span></div></div>
+          <div class="opt-item"><img class="opt-dot" src="images/mantel-black.png" alt="Black mantel" loading="lazy"><div><b>Black</b><span>Sleek and architectural.</span></div></div>
+          <div class="opt-item"><img class="opt-dot" src="images/mantel-oak.png" alt="Natural Oak mantel" loading="lazy"><div><b>Natural Oak</b><span>Warm honey tone, visible grain.</span></div></div>
         </div>
       </div>
     </div>
@@ -530,20 +528,27 @@ footer a{color:var(--ember);text-decoration:none}
     if(state.style==="slats"){
       if(state.board==="walnut"){
         s.backgroundImage='url("images/tex-slats.jpg")';s.backgroundColor="#fff";s.backgroundBlendMode="normal";
+      }else if(state.board==="black"){
+        s.backgroundImage='url("images/bg-blackslats.jpg")';s.backgroundColor="#fff";s.backgroundBlendMode="normal";
       }else{
-        s.backgroundImage='url("images/tex-slats-light.jpg")';s.backgroundColor=tint;s.backgroundBlendMode="multiply";
+        s.backgroundImage='url("images/bg-slats-light.jpg")';s.backgroundColor=tint;s.backgroundBlendMode="multiply";
       }
       s.backgroundSize="62% auto";
     }else if(state.style==="shiplap"){
       if(state.board==="black"){
         s.backgroundImage='url("images/tex-black.jpg")';s.backgroundColor="#fff";s.backgroundBlendMode="normal";
+        s.backgroundSize="150% auto";
       }else{
-        s.backgroundImage='url("images/tex-ship-light.jpg")';s.backgroundColor=tint;s.backgroundBlendMode="multiply";
+        s.backgroundImage='url("images/bg-shiplap.jpg")';s.backgroundColor=tint;s.backgroundBlendMode="multiply";
+        s.backgroundSize="118% auto";
       }
-      s.backgroundSize="150% auto";
-    }else{ /* board & batten: beveled battens over painted base, grain overlay adds texture */
-      s.backgroundImage="repeating-linear-gradient(90deg,rgba(255,255,255,.12) 0 2px,rgba(0,0,0,0) 2px 9px,rgba(0,0,0,.28) 9px 11px,rgba(0,0,0,0) 11px 64px),linear-gradient(180deg,rgba(255,255,255,.06),rgba(0,0,0,.08))";
-      s.backgroundColor=tint;s.backgroundBlendMode="normal";s.backgroundSize="auto";
+    }else{ /* board & batten */
+      if(state.board==="olive"){
+        s.backgroundImage='url("images/bg-greenbatten.jpg")';s.backgroundColor="#fff";s.backgroundBlendMode="normal";
+      }else{
+        s.backgroundImage='url("images/bg-batten-light.jpg")';s.backgroundColor=tint;s.backgroundBlendMode="multiply";
+      }
+      s.backgroundSize="115% auto";
     }
   }
 
@@ -555,7 +560,7 @@ footer a{color:var(--ember);text-decoration:none}
       tv.classList.remove("hidden");tv.style.width=tvPos[state.tv].w;tv.style.top=tvPos[state.tv].t}
     if(state.mantel==="none"){mantel.classList.add("hidden")}else{
       mantel.classList.remove("hidden");
-      var msrc="images/mantel-"+state.mantel+".jpg";
+      var msrc="images/mantel-"+state.mantel+".png";
       if(mantel.getAttribute("src")!==msrc)mantel.setAttribute("src",msrc);
     }
     if(state.fireplace==="none"){fireplace.classList.add("hidden")}else{
