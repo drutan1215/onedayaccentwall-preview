@@ -77,6 +77,12 @@ section{padding:88px 0}
 .rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
 .rv.in{opacity:1;transform:none}
 @media (prefers-reduced-motion: reduce){.rv{opacity:1;transform:none;transition:none}}
+/* angled section edges: white wedges cut diagonally into the wall sections */
+.wall-white,.wall-shiplap-white{position:relative;z-index:2}
+.wall-white::before,.wall-white::after,.wall-shiplap-white::after{content:"";position:absolute;left:0;width:100%;background:#fff;pointer-events:none}
+.wall-white::before{top:-3vw;height:calc(3vw + 2px);clip-path:polygon(0 100%,100% 0,100% 100%)}
+.wall-white::after{bottom:-3vw;height:calc(3vw + 2px);clip-path:polygon(0 0,100% 0,100% 100%)}
+.wall-shiplap-white::after{bottom:-3vw;height:calc(3vw + 2px);clip-path:polygon(0 0,100% 0,0 100%)}
 
 /* ---------- header ---------- */
 header{position:sticky;top:0;z-index:50;background:rgba(23,20,15,.92);backdrop-filter:blur(8px);color:#fff;border-bottom:1px solid rgba(255,255,255,.08)}
