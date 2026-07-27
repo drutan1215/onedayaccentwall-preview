@@ -87,7 +87,8 @@ section{padding:88px 0}
 /* ---------- header ---------- */
 header{position:sticky;top:0;z-index:50;background:rgba(23,20,15,.92);backdrop-filter:blur(8px);color:#fff;border-bottom:1px solid rgba(255,255,255,.08)}
 .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
-.logo{font-family:'Oswald',sans-serif;font-weight:700;text-transform:uppercase;font-size:1.05rem;letter-spacing:.06em;text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo{font-family:'Oswald',sans-serif;font-weight:700;text-transform:uppercase;font-size:1.05rem;letter-spacing:.06em;text-decoration:none;display:flex;flex-direction:column;align-items:flex-start;gap:1px;line-height:1.15}
+.logo small{font-family:'Inter',sans-serif;font-size:.6rem;font-weight:400;letter-spacing:.06em;text-transform:none;color:#fff;opacity:.8}
 .logo b{color:var(--ember)}
 .nav-links{display:flex;gap:26px;align-items:center;list-style:none}
 .nav-links a{text-decoration:none;font-size:.86rem;font-weight:500;opacity:.85}
@@ -224,7 +225,7 @@ footer a{color:var(--ember);text-decoration:none}
 
 <header>
   <nav class="wrap nav" aria-label="Main">
-    <a class="logo" href="#top">One Day <b>Accent Wall</b></a>
+    <a class="logo" href="#top"><span>One Day <b>Accent Wall</b></span><small>by Square One Home Solutions</small></a>
     <ul class="nav-links">
       <li><a href="#builder">Design Yours</a></li>
       <li><a href="#services">Services</a></li>
