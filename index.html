@@ -563,8 +563,22 @@ footer a{color:var(--ember);text-decoration:none}
     multi:{tint:"linear-gradient(90deg,#ff8c1a 0%,#b06bff 28%,#4f8cff 55%,#ff8c1a 80%,#b06bff 100%)",glow:"rgba(190,130,255,.35)"}
   };
   var flameLabels={orange:"orange flame",blue:"cool blue flame",multi:"multicolor flame"};
-  var tvPos={55:{w:"46%",t:"20.5%"},65:{w:"54%",t:"15%"},75:{w:"62%",t:"9.5%"},85:{w:"70%",t:"4%"}};
+  var tvWidths={55:46,65:54,75:62,85:70};
   var fpPos={50:{w:"46%",t:"70%"},60:{w:"56%",t:"68.5%"},74:{w:"72%",t:"72%"}};
+  /* accent-wall width/height ratio, derived from .room's 4:3 aspect-ratio and the
+     .accent-wall inset (16% each side, 6% top, 18% bottom) — used to convert the
+     tv image's own aspect ratio into a height percentage so it can be centered
+     between the top of the wall and the mantel */
+  var AW_RATIO=(68/76)*(4/3);
+  var TV_IMG_RATIO=263/473;
+  function positionTv(){
+    var widthPct=tvWidths[state.tv];
+    var heightPct=AW_RATIO*TV_IMG_RATIO*widthPct;
+    var bound=state.mantel!=="none"?52:(state.fireplace!=="none"?parseFloat(fpPos[state.fireplace].t):92);
+    var topPct=Math.max(0,(bound-heightPct)/2);
+    tv.style.width=widthPct+"%";
+    tv.style.top=topPct+"%";
+  }
 
   var el=function(id){return document.getElementById(id)};
   var accentWall=el("accentWall"),roomWall=el("roomWall"),tv=el("tv"),mantel=el("mantel"),
@@ -601,7 +615,7 @@ footer a{color:var(--ember);text-decoration:none}
     roomWall.style.background=paints[state.paint];
 
     if(state.tv==="none"){tv.classList.add("hidden")}else{
-      tv.classList.remove("hidden");tv.style.width=tvPos[state.tv].w;tv.style.top=tvPos[state.tv].t}
+      tv.classList.remove("hidden");positionTv()}
     if(state.mantel==="none"){mantel.classList.add("hidden")}else{
       mantel.classList.remove("hidden");
       var msrc="images/mantel-"+state.mantel+".png";
