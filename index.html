@@ -285,7 +285,6 @@ footer a{color:var(--ember);text-decoration:none}
           <div class="chip-row" data-group="style">
             <button class="chip" data-value="slats" aria-pressed="true">Vertical Slats</button>
             <button class="chip" data-value="shiplap" aria-pressed="false">Horizontal Shiplap</button>
-            <button class="chip" data-value="batten" aria-pressed="false">Board &amp; Batten</button>
           </div>
         </div>
 
@@ -372,7 +371,7 @@ footer a{color:var(--ember);text-decoration:none}
         <img src="images/white-shiplap-fireplace.jpg" alt="White shiplap accent wall with floating mantel and electric fireplace" loading="lazy">
         <div class="card-body">
           <h3>Accent Walls</h3>
-          <p>Shiplap, slats, or board &amp; batten in four designer colors. A boring flat wall becomes the focal point of your home — trimmed, painted, and finished.</p>
+          <p>Shiplap or vertical slat panels in a range of designer finishes. A boring flat wall becomes the focal point of your home — trimmed, painted, and finished.</p>
         </div>
       </div>
       <div class="card">
@@ -417,7 +416,7 @@ footer a{color:var(--ember);text-decoration:none}
     <div class="sec-head">
       <p class="eyebrow">Choose your style</p>
       <h2>Designer colors &amp; mantel finishes</h2>
-      <p>Four slat panel finishes, four shiplap &amp; batten colors, and five hand-finished mantel options — every combination looks intentional.</p>
+      <p>Four slat panel finishes, five shiplap colors, and five hand-finished mantel options — every combination looks intentional.</p>
     </div>
     <div class="opt-cols">
       <div>
@@ -430,12 +429,13 @@ footer a{color:var(--ember);text-decoration:none}
         </div>
       </div>
       <div>
-        <h3 style="font-size:1rem;letter-spacing:.1em;margin-bottom:14px">Shiplap &amp; Batten Colors</h3>
+        <h3 style="font-size:1rem;letter-spacing:.1em;margin-bottom:14px">Shiplap Colors</h3>
         <div class="opt-list">
           <div class="opt-item"><span class="opt-dot" style="background:#232323"></span><div><b>Matte Black</b><span>Bold. Modern. Timeless.</span></div></div>
           <div class="opt-item"><span class="opt-dot" style="background:#f5f3ee"></span><div><b>White</b><span>Clean. Bright. Classic.</span></div></div>
           <div class="opt-item"><span class="opt-dot" style="background:#8e9194"></span><div><b>Matte Gray</b><span>Warm. Neutral. Versatile.</span></div></div>
           <div class="opt-item"><span class="opt-dot" style="background:#59614a"></span><div><b>Olive Green</b><span>Earthy. Rich. Unique.</span></div></div>
+          <div class="opt-item"><span class="opt-dot" style="background:linear-gradient(135deg,#8a5a33,#6b4326)"></span><div><b>Natural Walnut</b><span>Warm. Classic. Timeless.</span></div></div>
         </div>
       </div>
       <div>
@@ -556,7 +556,7 @@ footer a{color:var(--ember);text-decoration:none}
   var paints={white:"#f2efe8",greige:"#d8d2c4",blue:"#cfdde4",sage:"#cdd4c5"};
   var paintLabels={white:"Bright White",greige:"Greige",blue:"Light Blue",sage:"Sage"};
   var mantelLabels={ashgray:"Ash Gray",darkchocolate:"Dark Chocolate",midnightblack:"Midnight Black",agedoak:"Aged Oak",mahogany:"Mahogany",none:"No mantel"};
-  var styleLabels={slats:"Vertical slats",shiplap:"Horizontal shiplap",batten:"Board & batten"};
+  var styleLabels={slats:"Vertical slats",shiplap:"Horizontal shiplap"};
   var flames={
     orange:{tint:"",glow:"rgba(255,140,40,.4)"},
     blue:{tint:"#3f7dff",glow:"rgba(100,140,255,.38)"},
@@ -592,17 +592,8 @@ footer a{color:var(--ember);text-decoration:none}
       return;
     }
     var tint=boardColors[state.board].tint;
-    if(state.style==="shiplap"){
-      s.backgroundImage='url("images/bg-shiplap.jpg")';s.backgroundColor=tint;s.backgroundBlendMode="multiply";
-      s.backgroundSize="118% auto";
-    }else{ /* board & batten */
-      if(state.board==="olive"){
-        s.backgroundImage='url("images/bg-greenbatten.jpg")';s.backgroundColor="#fff";s.backgroundBlendMode="normal";
-      }else{
-        s.backgroundImage='url("images/bg-batten-light.jpg")';s.backgroundColor=tint;s.backgroundBlendMode="multiply";
-      }
-      s.backgroundSize="115% auto";
-    }
+    s.backgroundImage='url("images/bg-shiplap.jpg")';s.backgroundColor=tint;s.backgroundBlendMode="multiply";
+    s.backgroundSize="118% auto";
   }
 
   function render(){
