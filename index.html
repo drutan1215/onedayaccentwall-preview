@@ -481,9 +481,9 @@ footer a{color:var(--ember);text-decoration:none}
       <p style="margin-top:10px;font-size:.85rem;opacity:.65">One Day Accent Wall is a service of Square One Home Solutions.</p>
     </div>
     <div class="form" id="deftformWrap">
-      <div class="deftform" data-form-id="55d25c7f-1f92-4ad8-9aed-8f371b56c190" data-form-width="100%" data-form-align="center" data-form-auto-height="1"></div>
-      <script src="https://cdn.deftform.com/embed.js"></script>
+      <div class="deftform" id="deftformDiv" data-form-id="55d25c7f-1f92-4ad8-9aed-8f371b56c190" data-form-width="100%" data-form-align="center" data-form-auto-height="1" data-form-init="0"></div>
     </div>
+    <script src="https://cdn.deftform.com/embed.js"></script>
   </div>
 </section>
 
@@ -639,29 +639,40 @@ footer a{color:var(--ember);text-decoration:none}
 
   buildBoardSwatches();
 
-  /* DeftForm reads data-form-prefill off the embed div once, when its script
-     tag executes — it doesn't watch for attribute changes afterward. So to
-     push the live design summary into the "Design Notes" hidden field
-     (id qchm8), we tear down and re-create the div+script pair fresh each
-     time, which forces DeftForm to re-initialize with the current value. */
-  function mountDeftform(prefillText){
-    var wrap=el("deftformWrap");
-    wrap.innerHTML="";
-    var div=document.createElement("div");
-    div.className="deftform";
-    div.setAttribute("data-form-id","55d25c7f-1f92-4ad8-9aed-8f371b56c190");
-    div.setAttribute("data-form-width","100%");
-    div.setAttribute("data-form-align","center");
-    div.setAttribute("data-form-auto-height","1");
-    if(prefillText)div.setAttribute("data-form-prefill","qchm8="+encodeURIComponent(prefillText));
-    wrap.appendChild(div);
-    var script=document.createElement("script");
-    script.src="https://cdn.deftform.com/embed.js";
-    wrap.appendChild(script);
+  /* The embed script (loaded once, statically) only builds forms marked
+     data-form-init="0" when we call window.initDeftform() — it does not
+     auto-run on page load. We wait until the quote section actually
+     scrolls into view before initializing, so the third-party iframe
+     (and whatever internal resize/scroll behavior it has) never fires
+     while someone is still up in the builder. Updating the prefilled
+     Design Notes field (id qchm8) after that first init goes through
+     window.reinitDeftform(), per DeftForm's docs — never by re-adding
+     the embed script, which they explicitly warn against running twice. */
+  var deftformDiv=el("deftformDiv"),deftformInitialized=false;
+
+  function ensureDeftform(prefillText){
+    if(prefillText)deftformDiv.setAttribute("data-form-prefill","qchm8="+encodeURIComponent(prefillText));
+    if(deftformInitialized){
+      if(window.reinitDeftform)window.reinitDeftform();
+    }else if(window.initDeftform){
+      window.initDeftform();
+      deftformInitialized=true;
+    }
+  }
+
+  if("IntersectionObserver" in window){
+    var deftformObserver=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ensureDeftform(designText());deftformObserver.disconnect()}
+      });
+    },{rootMargin:"200px"});
+    deftformObserver.observe(el("deftformWrap"));
+  }else{
+    ensureDeftform(designText());
   }
 
   el("sendDesign").addEventListener("click",function(){
-    mountDeftform(designText());
+    ensureDeftform(designText());
     document.getElementById("quote").scrollIntoView({behavior:"smooth"});
   });
 
