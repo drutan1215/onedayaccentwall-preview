@@ -593,13 +593,8 @@ footer a{color:var(--ember);text-decoration:none}
     }
     var tint=boardColors[state.board].tint;
     if(state.style==="shiplap"){
-      if(state.board==="black"){
-        s.backgroundImage='url("images/tex-black.jpg")';s.backgroundColor="#fff";s.backgroundBlendMode="normal";
-        s.backgroundSize="150% auto";
-      }else{
-        s.backgroundImage='url("images/bg-shiplap.jpg")';s.backgroundColor=tint;s.backgroundBlendMode="multiply";
-        s.backgroundSize="118% auto";
-      }
+      s.backgroundImage='url("images/bg-shiplap.jpg")';s.backgroundColor=tint;s.backgroundBlendMode="multiply";
+      s.backgroundSize="118% auto";
     }else{ /* board & batten */
       if(state.board==="olive"){
         s.backgroundImage='url("images/bg-greenbatten.jpg")';s.backgroundColor="#fff";s.backgroundBlendMode="normal";
