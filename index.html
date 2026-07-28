@@ -480,35 +480,9 @@ footer a{color:var(--ember);text-decoration:none}
       <img src="images/logo.png" alt="Square One Home Solutions logo" style="width:190px;margin:10px 0 0 -20px;filter:invert(1) brightness(1.05);mix-blend-mode:screen">
       <p style="margin-top:10px;font-size:.85rem;opacity:.65">One Day Accent Wall is a service of Square One Home Solutions.</p>
     </div>
-    <form class="form" id="quoteForm">
-      <div class="form-row">
-        <div class="field"><label for="fName">Name</label><input id="fName" name="name" placeholder="Your name" required></div>
-        <div class="field"><label for="fPhone">Phone</label><input id="fPhone" name="phone" type="tel" placeholder="(330) 555-0100" required></div>
-      </div>
-      <div class="form-row">
-        <div class="field"><label for="fEmail">Email</label><input id="fEmail" name="email" type="email" placeholder="you@email.com"></div>
-        <div class="field"><label for="fLocation">Wall location</label>
-          <select id="fLocation" name="location">
-            <option>Living Room</option><option>Basement</option><option>Bedroom</option><option>Other</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="field"><label for="fWidth">Wall width</label>
-          <select id="fWidth" name="width">
-            <option>Not sure</option><option>Under 6 ft</option><option>6–8 ft</option><option>8–10 ft</option><option>Over 10 ft</option>
-          </select>
-        </div>
-        <div class="field"><label for="fFinancing">Interested in financing?</label>
-          <select id="fFinancing" name="financing"><option>No</option><option>Yes</option></select>
-        </div>
-      </div>
-      <div class="field" style="margin-bottom:14px"><label for="fDesign">Your design</label>
-        <textarea id="fDesign" name="design" placeholder="Use the builder above and your choices will appear here — or describe what you have in mind."></textarea>
-      </div>
-      <button class="btn btn-ember" type="submit">Request My Free Quote</button>
-      <p class="form-note">Submitting opens your email app with everything filled in — just press send.</p>
-    </form>
+    <div class="form">
+      <div class="deftform" data-form-id="55d25c7f-1f92-4ad8-9aed-8f371b56c190" data-form-width="100%" data-form-align="center" data-form-auto-height="1"></div>
+    </div>
   </div>
 </section>
 
@@ -620,7 +594,6 @@ footer a{color:var(--ember);text-decoration:none}
     mantel.classList.toggle("glow-under",state.addons.indexOf("mantelGlow")>-1 && state.mantel!=="none");
 
     summary.textContent=styleLabels[state.style]+" · "+boardLabel();
-    el("fDesign").value=designText();
   }
 
   function designText(){
@@ -665,19 +638,13 @@ footer a{color:var(--ember);text-decoration:none}
 
   buildBoardSwatches();
 
+  /* DeftForm's "Design Notes" hidden field (id qchm8) is prefilled via a URL
+     query param matching its field ID, read when the embed script initializes.
+     Since that only happens on page load, sending the design does a fresh
+     navigation to #quote with the param set, rather than a live JS update. */
+  var DEFTFORM_DESIGN_FIELD="qchm8";
   el("sendDesign").addEventListener("click",function(){
-    el("fDesign").value=designText();
-    document.getElementById("quote").scrollIntoView({behavior:"smooth"});
-    setTimeout(function(){el("fName").focus({preventScroll:true})},600);
-  });
-
-  el("quoteForm").addEventListener("submit",function(e){
-    e.preventDefault();
-    var f=e.target;
-    var body="Name: "+f.name.value+"\nPhone: "+f.phone.value+"\nEmail: "+f.email.value+
-      "\nWall location: "+f.location.value+"\nWall width: "+f.width.value+
-      "\nFinancing: "+f.financing.value+"\n\nMy design:\n"+f.design.value;
-    location.href="mailto:devanrutan@gmail.com?subject="+encodeURIComponent("Free Quote Request — One Day Accent Wall")+"&body="+encodeURIComponent(body);
+    location.href=location.pathname+"?"+DEFTFORM_DESIGN_FIELD+"="+encodeURIComponent(designText())+"#quote";
   });
 
   /* staggered scroll-reveal for section content */
