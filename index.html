@@ -303,14 +303,39 @@ footer a{color:var(--ember);text-decoration:none}
 <main id="top">
 
 <!-- HERO + BUILDER -->
-<section class="hero wall-slats-dark" id="builder">
+<section class="hero wall-slats-dark" id="builder" style="padding-bottom:0;overflow:hidden">
   <div class="wrap">
     <div class="hero-head">
       <p class="eyebrow">Fireplace Accent Walls · Electric Fireplaces · Media Walls</p>
       <h1>Luxury built.<br>Installed in <span>one day.</span></h1>
       <p>Design your accent wall right here — pick your boards, colors, mantel, fireplace, and TV. We build it in your home in a single day. No major renovation, financing available.</p>
     </div>
+  </div>
+</section>
 
+<!-- BUILD STORY (real installation, scroll-scrubbed) -->
+<section class="wall-slats-dark build-story" id="build-story">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Real installation</p>
+      <h2>Watch one come together</h2>
+      <p>An actual One Day Accent Wall build, shot start to finish. Scroll to watch the wall go up — scroll back up to watch it come apart.</p>
+    </div>
+  </div>
+  <div class="scrub-outer" id="buildScrub">
+    <div class="scrub-sticky">
+      <canvas id="buildCanvas"></canvas>
+      <div class="scrub-progress"><div class="scrub-progress-fill" id="buildProgressFill"></div></div>
+      <div class="scrub-loader" id="buildLoader">
+        <div class="scrub-loader-bar"><div class="scrub-loader-fill" id="buildLoaderFill"></div></div>
+        <div class="scrub-loader-label">Loading build sequence&hellip;</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero wall-slats-dark">
+  <div class="wrap">
     <div class="builder">
       <div class="room-card">
         <div class="room" id="room" role="img" aria-label="Live preview of your accent wall design">
@@ -412,27 +437,6 @@ footer a{color:var(--ember);text-decoration:none}
           <button class="btn btn-ember" id="sendDesign">Send My Design — Free Quote</button>
           <span class="builder-note">No obligation. We'll confirm sizing &amp; pricing.</span>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- BUILD STORY (real installation, scroll-scrubbed) -->
-<section class="wall-slats-dark build-story" id="build-story">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow">Real installation</p>
-      <h2>Watch one come together</h2>
-      <p>An actual One Day Accent Wall build, shot start to finish. Scroll to watch the wall go up — scroll back up to watch it come apart.</p>
-    </div>
-  </div>
-  <div class="scrub-outer" id="buildScrub">
-    <div class="scrub-sticky">
-      <canvas id="buildCanvas"></canvas>
-      <div class="scrub-progress"><div class="scrub-progress-fill" id="buildProgressFill"></div></div>
-      <div class="scrub-loader" id="buildLoader">
-        <div class="scrub-loader-bar"><div class="scrub-loader-fill" id="buildLoaderFill"></div></div>
-        <div class="scrub-loader-label">Loading build sequence&hellip;</div>
       </div>
     </div>
   </div>
