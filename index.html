@@ -236,6 +236,21 @@ img.opt-dot{width:72px;object-fit:cover;box-shadow:0 3px 8px rgba(0,0,0,.25)}
 .step h3{font-size:.95rem;letter-spacing:.06em;margin-bottom:6px}
 .step p{font-size:.82rem;color:var(--ink-soft)}
 
+/* ---------- build story (scroll scrub) ---------- */
+.build-story{padding-bottom:0}
+.build-story .sec-head p{color:#fff;opacity:.8}
+.scrub-outer{position:relative;height:400vh;margin-top:16px}
+.scrub-sticky{position:sticky;top:0;height:100vh;width:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#0b0906}
+#buildCanvas{height:100%;width:100%;object-fit:cover;display:block}
+.scrub-progress{position:absolute;left:0;right:0;bottom:0;height:3px;background:rgba(255,255,255,.14);z-index:10}
+.scrub-progress-fill{height:100%;width:0%;background:var(--ember)}
+.scrub-loader{position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:#0b0906;transition:opacity .5s ease}
+.scrub-loader-bar{width:220px;height:2px;background:rgba(255,255,255,.15)}
+.scrub-loader-fill{height:100%;width:0%;background:#fff;transition:width .15s ease}
+.scrub-loader-label{color:rgba(255,255,255,.55);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-family:'Oswald',sans-serif}
+.scrub-loader.is-hidden{opacity:0;pointer-events:none}
+@media(max-width:640px){.scrub-outer{height:340vh}}
+
 /* ---------- quote ---------- */
 .quote-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:44px;align-items:start}
 @media(max-width:880px){.quote-grid{grid-template-columns:1fr}}
@@ -397,6 +412,27 @@ footer a{color:var(--ember);text-decoration:none}
           <button class="btn btn-ember" id="sendDesign">Send My Design — Free Quote</button>
           <span class="builder-note">No obligation. We'll confirm sizing &amp; pricing.</span>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUILD STORY (real installation, scroll-scrubbed) -->
+<section class="wall-slats-dark build-story" id="build-story">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Real installation</p>
+      <h2>Watch one come together</h2>
+      <p>An actual One Day Accent Wall build, shot start to finish. Scroll to watch the wall go up — scroll back up to watch it come apart.</p>
+    </div>
+  </div>
+  <div class="scrub-outer" id="buildScrub">
+    <div class="scrub-sticky">
+      <canvas id="buildCanvas"></canvas>
+      <div class="scrub-progress"><div class="scrub-progress-fill" id="buildProgressFill"></div></div>
+      <div class="scrub-loader" id="buildLoader">
+        <div class="scrub-loader-bar"><div class="scrub-loader-fill" id="buildLoaderFill"></div></div>
+        <div class="scrub-loader-label">Loading build sequence&hellip;</div>
       </div>
     </div>
   </div>
@@ -736,6 +772,100 @@ footer a{color:var(--ember);text-decoration:none}
 
   el("year").textContent=new Date().getFullYear();
   render();
+})();
+</script>
+
+<!-- Scroll-scrubbed build sequence: preloads the 192 frame JPGs and draws
+     the one matching current scroll position onto a canvas, easing toward
+     it each frame so fast or reversed scrolling still looks smooth. -->
+<script>
+(function(){
+  var FRAME_COUNT=192;
+  function framePath(i){return "images/build-frames/frame_"+String(i).padStart(4,"0")+".jpg"}
+
+  var canvas=document.getElementById("buildCanvas");
+  if(!canvas)return;
+  var ctx=canvas.getContext("2d");
+  var section=document.getElementById("buildScrub");
+  var progressFill=document.getElementById("buildProgressFill");
+  var loader=document.getElementById("buildLoader");
+  var loaderFill=document.getElementById("buildLoaderFill");
+
+  var images=new Array(FRAME_COUNT);
+  var loadedCount=0,ready=false;
+
+  function preload(){
+    for(var i=0;i<FRAME_COUNT;i++){
+      var img=new Image();
+      img.decoding="async";
+      img.src=framePath(i+1);
+      img.onload=img.onerror=function(){
+        loadedCount++;
+        var pct=Math.round((loadedCount/FRAME_COUNT)*100);
+        loaderFill.style.width=pct+"%";
+        if(loadedCount===FRAME_COUNT){
+          ready=true;
+          loader.classList.add("is-hidden");
+          onScroll();
+        }
+      };
+      images[i]=img;
+    }
+  }
+
+  function resizeCanvas(){
+    var dpr=Math.min(window.devicePixelRatio||1,2);
+    canvas.width=Math.round(window.innerWidth*dpr);
+    canvas.height=Math.round(window.innerHeight*dpr);
+  }
+
+  function drawFrame(index){
+    var img=images[Math.min(Math.max(index,0),FRAME_COUNT-1)];
+    if(!img||!img.complete||!img.naturalWidth)return;
+    var cw=canvas.width,ch=canvas.height;
+    var iw=img.naturalWidth,ih=img.naturalHeight;
+    var scale=Math.max(cw/iw,ch/ih);
+    var dw=iw*scale,dh=ih*scale;
+    var dx=(cw-dw)/2,dy=(ch-dh)/2;
+    ctx.clearRect(0,0,cw,ch);
+    ctx.drawImage(img,dx,dy,dw,dh);
+  }
+
+  function getProgress(){
+    var rect=section.getBoundingClientRect();
+    var total=rect.height-window.innerHeight;
+    if(total<=0)return 0;
+    var scrolled=-rect.top;
+    return Math.min(Math.max(scrolled/total,0),1);
+  }
+
+  var targetFrame=0,currentFrame=0,ticking=false;
+
+  function onScroll(){
+    var progress=getProgress();
+    targetFrame=progress*(FRAME_COUNT-1);
+    progressFill.style.width=(progress*100)+"%";
+    requestTick();
+  }
+
+  function requestTick(){
+    if(!ticking){ticking=true;requestAnimationFrame(tick)}
+  }
+
+  function tick(){
+    ticking=false;
+    var diff=targetFrame-currentFrame;
+    if(Math.abs(diff)<0.4){currentFrame=targetFrame}
+    else{currentFrame+=diff*0.22;requestTick()}
+    if(ready)drawFrame(Math.round(currentFrame));
+  }
+
+  window.addEventListener("scroll",onScroll,{passive:true});
+  window.addEventListener("resize",function(){resizeCanvas();drawFrame(Math.round(currentFrame))});
+
+  resizeCanvas();
+  preload();
+  onScroll();
 })();
 </script>
 </body>
