@@ -379,17 +379,7 @@ footer a{color:var(--ember);text-decoration:none}
         </div>
 
         <div class="ctl-group">
-          <div class="ctl-label">3 · Room paint</div>
-          <div class="swatch-row" data-group="paint">
-            <button class="swatch" data-value="white" title="Bright White" aria-label="Bright White" aria-pressed="true" style="background:#f2efe8"></button>
-            <button class="swatch" data-value="greige" title="Greige" aria-label="Greige" aria-pressed="false" style="background:#d8d2c4"></button>
-            <button class="swatch" data-value="blue" title="Light Blue" aria-label="Light Blue" aria-pressed="false" style="background:#cfdde4"></button>
-            <button class="swatch" data-value="sage" title="Sage" aria-label="Sage" aria-pressed="false" style="background:#cdd4c5"></button>
-          </div>
-        </div>
-
-        <div class="ctl-group">
-          <div class="ctl-label">4 · Floating mantel</div>
+          <div class="ctl-label">3 · Floating mantel</div>
           <div class="chip-row" data-group="mantel">
             <button class="chip" data-value="ashgray" aria-pressed="true">Ash Gray</button>
             <button class="chip" data-value="darkchocolate" aria-pressed="false">Dark Chocolate</button>
@@ -401,11 +391,10 @@ footer a{color:var(--ember);text-decoration:none}
         </div>
 
         <div class="ctl-group">
-          <div class="ctl-label">5 · Electric fireplace <small>included</small></div>
+          <div class="ctl-label">4 · Electric fireplace <small>included</small></div>
           <div class="chip-row" data-group="fireplace">
-            <button class="chip" data-value="50" aria-pressed="false">50&quot;</button>
             <button class="chip" data-value="60" aria-pressed="true">60&quot;</button>
-            <button class="chip" data-value="74" aria-pressed="false">74&quot;</button>
+            <button class="chip" data-value="72" aria-pressed="false">72&quot;</button>
             <button class="chip" data-value="none" aria-pressed="false">None</button>
           </div>
           <div class="chip-row" data-group="flame" style="margin-top:8px">
@@ -416,7 +405,7 @@ footer a{color:var(--ember);text-decoration:none}
         </div>
 
         <div class="ctl-group">
-          <div class="ctl-label">6 · TV size</div>
+          <div class="ctl-label">5 · TV size</div>
           <div class="chip-row" data-group="tv">
             <button class="chip" data-value="55" aria-pressed="false">55&quot;</button>
             <button class="chip" data-value="65" aria-pressed="true">65&quot;</button>
@@ -427,9 +416,9 @@ footer a{color:var(--ember);text-decoration:none}
         </div>
 
         <div class="ctl-group">
-          <div class="ctl-label">7 · Lighting add-ons <small>optional</small></div>
+          <div class="ctl-label">6 · Lighting add-ons <small>optional</small></div>
           <div class="chip-row" data-group="addons" data-multi="true">
-            <button class="chip" data-value="edge" aria-pressed="false">LED Edge Backlight</button>
+            <button class="chip" id="edgeChip" data-value="edge" aria-pressed="false">LED Edge Backlight</button>
             <button class="chip" data-value="mantelGlow" aria-pressed="false">Under-Mantel LED</button>
           </div>
         </div>
@@ -584,7 +573,7 @@ footer a{color:var(--ember);text-decoration:none}
 
 <script>
 (function(){
-  var state={style:"slats",board:"whiteoak",paint:"white",mantel:"ashgray",fireplace:"60",flame:"orange",tv:"65",addons:[]};
+  var state={style:"slats",board:"whiteoak",mantel:"ashgray",fireplace:"60",flame:"orange",tv:"65",addons:[]};
 
   var slatBoards={
     whiteoak:{label:"White Oak",tex:"images/tile-whiteoak.jpg",swatch:"images/swatch-whiteoak.jpg"},
@@ -614,8 +603,6 @@ footer a{color:var(--ember);text-decoration:none}
     });
     el("boardSwatches").innerHTML=html;
   }
-  var paints={white:"#f2efe8",greige:"#d8d2c4",blue:"#cfdde4",sage:"#cdd4c5"};
-  var paintLabels={white:"Bright White",greige:"Greige",blue:"Light Blue",sage:"Sage"};
   var mantelLabels={ashgray:"Ash Gray",darkchocolate:"Dark Chocolate",midnightblack:"Midnight Black",agedoak:"Aged Oak",mahogany:"Mahogany",none:"No mantel"};
   var styleLabels={slats:"Vertical slats",shiplap:"Horizontal shiplap"};
   var flames={
@@ -625,7 +612,7 @@ footer a{color:var(--ember);text-decoration:none}
   };
   var flameLabels={orange:"orange flame",blue:"cool blue flame",multi:"multicolor flame"};
   var tvWidths={55:46,65:54,75:62,85:70};
-  var fpPos={50:{w:"46%",t:"70%"},60:{w:"56%",t:"68.5%"},74:{w:"72%",t:"72%"}};
+  var fpPos={60:{w:"56%",t:"68.5%"},72:{w:"72%",t:"72%"}};
   /* accent-wall width/height ratio, derived from .room's 4:3 aspect-ratio and the
      .accent-wall inset (16% each side, 6% top, 18% bottom) — used to convert the
      tv image's own aspect ratio into a height percentage so it can be centered
@@ -643,7 +630,8 @@ footer a{color:var(--ember);text-decoration:none}
 
   var el=function(id){return document.getElementById(id)};
   var accentWall=el("accentWall"),roomWall=el("roomWall"),tv=el("tv"),mantel=el("mantel"),
-      fireplace=el("fireplace"),fpImg=el("fpImg"),fpTint=el("fpTint"),fpGlow=el("fpGlow"),summary=el("summaryLine");
+      fireplace=el("fireplace"),fpImg=el("fpImg"),fpTint=el("fpTint"),fpGlow=el("fpGlow"),summary=el("summaryLine"),
+      edgeChip=el("edgeChip");
 
   function applyWall(){
     var s=accentWall.style;
@@ -659,7 +647,15 @@ footer a{color:var(--ember);text-decoration:none}
 
   function render(){
     applyWall();
-    roomWall.style.background=paints[state.paint];
+    roomWall.style.background="#f2efe8";
+
+    if(state.style!=="slats"){
+      var i=state.addons.indexOf("edge");
+      if(i>-1){state.addons.splice(i,1);edgeChip.setAttribute("aria-pressed","false")}
+      edgeChip.style.display="none";
+    }else{
+      edgeChip.style.display="";
+    }
 
     if(state.tv==="none"){tv.classList.add("hidden")}else{
       tv.classList.remove("hidden");positionTv()}
@@ -687,7 +683,6 @@ footer a{color:var(--ember);text-decoration:none}
     var parts=[
       "Wall style: "+styleLabels[state.style],
       "Board color: "+boardLabel(),
-      "Room paint: "+paintLabels[state.paint],
       "Mantel: "+mantelLabels[state.mantel],
       "Fireplace: "+(state.fireplace==="none"?"None":state.fireplace+'" with '+flameLabels[state.flame]),
       "TV: "+(state.tv==="none"?"No TV":state.tv+'"')
