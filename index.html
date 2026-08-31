@@ -35,9 +35,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="image" href="images/tile-whiteoak.jpg" fetchpriority="high">
-<link rel="preload" as="image" href="images/tv.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="images/tv.webp" fetchpriority="high">
 <link rel="preload" as="image" href="images/mantel-ashgray.webp" fetchpriority="high">
-<link rel="preload" as="image" href="images/fireplace-60.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="images/fireplace-60.webp" fetchpriority="high">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <noscript><link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='14' fill='%2317140f'/><rect x='22' y='60' width='56' height='14' rx='3' fill='%23d9782d'/><rect x='30' y='30' width='40' height='22' rx='2' fill='%23f1ece2'/></svg>">
@@ -409,10 +409,10 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
           <div class="accent-wall" id="accentWall" style="background-image:url('images/tile-whiteoak.jpg');background-color:#fff;background-blend-mode:normal;background-size:46% auto">
             <div class="wall-grain"></div>
             <div class="wall-shade"></div>
-            <img class="prod tv-img" id="tv" src="images/tv.jpg" alt="Mounted TV">
+            <img class="prod tv-img" id="tv" src="images/tv.webp" alt="Mounted TV">
             <img class="prod mantel-img" id="mantel" src="images/mantel-ashgray.webp" alt="Floating mantel">
             <div class="fp-wrap" id="fireplace">
-              <img id="fpImg" src="images/fireplace-60.jpg" alt="Recessed electric fireplace">
+              <img id="fpImg" src="images/fireplace-60.webp" alt="Recessed electric fireplace">
               <div class="fp-tint" id="fpTint"></div>
               <div class="fp-glow" id="fpGlow"></div>
             </div>
@@ -559,10 +559,10 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
       <div>
         <h3 style="font-size:1rem;letter-spacing:.1em;margin-bottom:14px">Vertical Slat Panels</h3>
         <div class="opt-list">
-          <div class="opt-item"><img class="opt-dot-wide" src="images/swatch-whiteoak.jpg" alt="White Oak slat panel" loading="lazy"><div><b>White Oak</b><span>Light natural wood tone, subtle grain.</span></div></div>
-          <div class="opt-item"><img class="opt-dot-wide" src="images/swatch-chocolatebrown.jpg" alt="Chocolate Brown slat panel" loading="lazy"><div><b>Chocolate Brown</b><span>Rich dark wood, warm undertone.</span></div></div>
-          <div class="opt-item"><img class="opt-dot-wide" src="images/swatch-concrete.jpg" alt="Concrete slat panel" loading="lazy"><div><b>Concrete</b><span>Cool gray, modern industrial look.</span></div></div>
-          <div class="opt-item"><img class="opt-dot-wide" src="images/swatch-massypecan.jpg" alt="Massy Pecan slat panel" loading="lazy"><div><b>Massy Pecan</b><span>Golden brown, natural wood texture.</span></div></div>
+          <div class="opt-item"><img class="opt-dot-wide" src="images/swatch-whiteoak.webp" alt="White Oak slat panel" loading="lazy"><div><b>White Oak</b><span>Light natural wood tone, subtle grain.</span></div></div>
+          <div class="opt-item"><img class="opt-dot-wide" src="images/swatch-chocolatebrown.webp" alt="Chocolate Brown slat panel" loading="lazy"><div><b>Chocolate Brown</b><span>Rich dark wood, warm undertone.</span></div></div>
+          <div class="opt-item"><img class="opt-dot-wide" src="images/swatch-concrete.webp" alt="Concrete slat panel" loading="lazy"><div><b>Concrete</b><span>Cool gray, modern industrial look.</span></div></div>
+          <div class="opt-item"><img class="opt-dot-wide" src="images/swatch-massypecan.webp" alt="Massy Pecan slat panel" loading="lazy"><div><b>Massy Pecan</b><span>Golden brown, natural wood texture.</span></div></div>
         </div>
       </div>
       <div>
@@ -632,7 +632,7 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
       <h2>Ready for your one-day transformation?</h2>
       <p>Send your design or just say hello — we'll walk you through sizing, colors, and pricing. Prefer to talk?</p>
       <a class="phone-big" href="tel:3302177564">330-217-7564</a>
-      <img src="images/logo.png" alt="Square One Home Solutions logo" style="width:190px;margin:10px 0 0 -20px;filter:invert(1) brightness(1.05);mix-blend-mode:screen">
+      <img src="images/logo.webp" alt="Square One Home Solutions logo" style="width:190px;margin:10px 0 0 -20px;filter:invert(1) brightness(1.05);mix-blend-mode:screen">
       <p style="margin-top:10px;font-size:.85rem;opacity:.65">One Day Accent Wall is a service of Square One Home Solutions.</p>
     </div>
     <div class="form" id="deftformWrap">
@@ -657,10 +657,10 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
   var state={style:"slats",board:"whiteoak",mantel:"ashgray",fireplace:"60",flame:"orange",tv:"65",addons:[]};
 
   var slatBoards={
-    whiteoak:{label:"White Oak",tex:"images/tile-whiteoak.jpg",swatch:"images/swatch-whiteoak.jpg"},
-    chocolatebrown:{label:"Chocolate Brown",tex:"images/tile-chocolatebrown.jpg",swatch:"images/swatch-chocolatebrown.jpg"},
-    concrete:{label:"Concrete",tex:"images/tile-concrete.jpg",swatch:"images/swatch-concrete.jpg"},
-    massypecan:{label:"Massy Pecan",tex:"images/tile-massypecan.jpg",swatch:"images/swatch-massypecan.jpg"}
+    whiteoak:{label:"White Oak",tex:"images/tile-whiteoak.jpg",swatch:"images/swatch-whiteoak.webp"},
+    chocolatebrown:{label:"Chocolate Brown",tex:"images/tile-chocolatebrown.jpg",swatch:"images/swatch-chocolatebrown.webp"},
+    concrete:{label:"Concrete",tex:"images/tile-concrete.jpg",swatch:"images/swatch-concrete.webp"},
+    massypecan:{label:"Massy Pecan",tex:"images/tile-massypecan.jpg",swatch:"images/swatch-massypecan.webp"}
   };
   var boardColors={
     black:{tint:"#2f2f2f",label:"Matte Black",swatchBg:"#232323"},
@@ -748,7 +748,7 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
     if(state.fireplace==="none"){fireplace.classList.add("hidden")}else{
       fireplace.classList.remove("hidden");
       fireplace.style.width=fpPos[state.fireplace].w;fireplace.style.top=fpPos[state.fireplace].t;
-      var fsrc="images/fireplace-"+state.fireplace+".jpg";
+      var fsrc="images/fireplace-"+state.fireplace+".webp";
       if(fpImg.getAttribute("src")!==fsrc)fpImg.setAttribute("src",fsrc);
       var fl=flames[state.flame];
       if(fl.tint){fpTint.style.background=fl.tint;fpTint.style.display="block"}else{fpTint.style.display="none"}
