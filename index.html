@@ -116,8 +116,8 @@ a{color:inherit}
 section{padding:88px 0}
 .btn{display:inline-block;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.08em;font-weight:600;font-size:.95rem;padding:14px 28px;border-radius:4px;border:none;cursor:pointer;text-decoration:none;transition:transform .15s ease,background .15s ease,box-shadow .15s ease}
 .btn:focus-visible,button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--ember);outline-offset:2px}
-.btn-ember{background:var(--ember);color:#fff}
-.btn-ember:hover{background:var(--ember-deep);transform:translateY(-1px)}
+.btn-ember{background:var(--ember-deep);color:#fff}
+.btn-ember:hover{background:#9a4f0f;transform:translateY(-1px)}
 .btn-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5)}
 .btn-ghost:hover{border-color:#fff}
 
@@ -329,7 +329,7 @@ img.opt-dot{width:72px;object-fit:cover;box-shadow:0 3px 8px rgba(0,0,0,.25)}
 /* ---------- footer ---------- */
 footer{background:#0f0d0b;color:#cfc8bb;padding:34px 0;font-size:.82rem}
 .foot{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;align-items:center}
-footer a{color:var(--ember);text-decoration:none}
+footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
 </style>
 <script async defer src="https://app.visitortracking.com/assets/js/tracer.js"></script>
 <script>
@@ -405,7 +405,7 @@ footer a{color:var(--ember);text-decoration:none}
             <div class="wall-grain"></div>
             <div class="wall-shade"></div>
             <img class="prod tv-img" id="tv" src="images/tv.jpg" alt="Mounted TV">
-            <img class="prod mantel-img" id="mantel" src="images/mantel-ashgray.png" alt="Floating mantel">
+            <img class="prod mantel-img" id="mantel" src="images/mantel-ashgray.webp" alt="Floating mantel">
             <div class="fp-wrap" id="fireplace">
               <img id="fpImg" src="images/fireplace-60.jpg" alt="Recessed electric fireplace">
               <div class="fp-tint" id="fpTint"></div>
@@ -573,11 +573,11 @@ footer a{color:var(--ember);text-decoration:none}
       <div>
         <h3 style="font-size:1rem;letter-spacing:.1em;margin-bottom:14px">Floating Mantels</h3>
         <div class="opt-list">
-          <div class="opt-item"><img class="opt-dot" src="images/mantel-ashgray.png" alt="Ash Gray mantel" loading="lazy"><div><b>Ash Gray</b><span>Weathered gray, wire-brushed grain.</span></div></div>
-          <div class="opt-item"><img class="opt-dot" src="images/mantel-darkchocolate.png" alt="Dark Chocolate mantel" loading="lazy"><div><b>Dark Chocolate</b><span>Deep roasted brown, satin finish.</span></div></div>
-          <div class="opt-item"><img class="opt-dot" src="images/mantel-midnightblack.png" alt="Midnight Black mantel" loading="lazy"><div><b>Midnight Black</b><span>Sleek and architectural.</span></div></div>
-          <div class="opt-item"><img class="opt-dot" src="images/mantel-agedoak.png" alt="Aged Oak mantel" loading="lazy"><div><b>Aged Oak</b><span>Warm honey tone, visible grain.</span></div></div>
-          <div class="opt-item"><img class="opt-dot" src="images/mantel-mahogany.png" alt="Mahogany mantel" loading="lazy"><div><b>Mahogany</b><span>Rich reddish-brown, deep luster.</span></div></div>
+          <div class="opt-item"><img class="opt-dot" src="images/mantel-ashgray.webp" alt="Ash Gray mantel" loading="lazy"><div><b>Ash Gray</b><span>Weathered gray, wire-brushed grain.</span></div></div>
+          <div class="opt-item"><img class="opt-dot" src="images/mantel-darkchocolate.webp" alt="Dark Chocolate mantel" loading="lazy"><div><b>Dark Chocolate</b><span>Deep roasted brown, satin finish.</span></div></div>
+          <div class="opt-item"><img class="opt-dot" src="images/mantel-midnightblack.webp" alt="Midnight Black mantel" loading="lazy"><div><b>Midnight Black</b><span>Sleek and architectural.</span></div></div>
+          <div class="opt-item"><img class="opt-dot" src="images/mantel-agedoak.webp" alt="Aged Oak mantel" loading="lazy"><div><b>Aged Oak</b><span>Warm honey tone, visible grain.</span></div></div>
+          <div class="opt-item"><img class="opt-dot" src="images/mantel-mahogany.webp" alt="Mahogany mantel" loading="lazy"><div><b>Mahogany</b><span>Rich reddish-brown, deep luster.</span></div></div>
         </div>
       </div>
     </div>
@@ -737,7 +737,7 @@ footer a{color:var(--ember);text-decoration:none}
       tv.classList.remove("hidden");positionTv()}
     if(state.mantel==="none"){mantel.classList.add("hidden")}else{
       mantel.classList.remove("hidden");
-      var msrc="images/mantel-"+state.mantel+".png";
+      var msrc="images/mantel-"+state.mantel+".webp";
       if(mantel.getAttribute("src")!==msrc)mantel.setAttribute("src",msrc);
     }
     if(state.fireplace==="none"){fireplace.classList.add("hidden")}else{
@@ -949,8 +949,27 @@ footer a{color:var(--ember);text-decoration:none}
   window.addEventListener("resize",function(){resizeCanvas();drawFrame(Math.round(currentFrame))});
 
   resizeCanvas();
-  preload();
   onScroll();
+
+  /* Don't fetch all 192 frames (~11MB) on page load — start once the
+     section is within reach so it's ready by the time someone scrolls
+     to it, instead of competing with above-the-fold content for bandwidth. */
+  var preloadStarted=false;
+  function ensurePreload(){
+    if(preloadStarted)return;
+    preloadStarted=true;
+    preload();
+  }
+  if("IntersectionObserver" in window){
+    var lazyObserver=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ensurePreload();lazyObserver.disconnect()}
+      });
+    },{rootMargin:"800px 0px 800px 0px"});
+    lazyObserver.observe(section);
+  }else{
+    ensurePreload();
+  }
 })();
 </script>
 </body>
