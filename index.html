@@ -883,6 +883,7 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
     for(var i=0;i<FRAME_COUNT;i++){
       var img=new Image();
       img.decoding="async";
+      if("fetchPriority" in img)img.fetchPriority="low";
       img.src=framePath(i+1);
       img.onload=img.onerror=function(){
         loadedCount++;
@@ -951,24 +952,15 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
   resizeCanvas();
   onScroll();
 
-  /* Don't fetch all 192 frames (~11MB) on page load — start once the
-     section is within reach so it's ready by the time someone scrolls
-     to it, instead of competing with above-the-fold content for bandwidth. */
-  var preloadStarted=false;
-  function ensurePreload(){
-    if(preloadStarted)return;
-    preloadStarted=true;
-    preload();
-  }
-  if("IntersectionObserver" in window){
-    var lazyObserver=new IntersectionObserver(function(entries){
-      entries.forEach(function(en){
-        if(en.isIntersecting){ensurePreload();lazyObserver.disconnect()}
-      });
-    },{rootMargin:"800px 0px 800px 0px"});
-    lazyObserver.observe(section);
+  /* This section sits right after the headline, so it's already near the
+     viewport on load — proximity-based lazy loading doesn't help here.
+     Instead, defer the 192-frame fetch (~11MB) until the browser is idle
+     (after it's done with fonts/hero/above-the-fold images), and mark
+     each frame low-priority so it never contends with critical resources. */
+  if("requestIdleCallback" in window){
+    requestIdleCallback(preload,{timeout:2500});
   }else{
-    ensurePreload();
+    setTimeout(preload,1500);
   }
 })();
 </script>
