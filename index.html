@@ -737,11 +737,8 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
       return;
     }
     if(state.style==="stone"){
-      /* Stacked-stone's irregular masonry silhouette can't tile seamlessly
-         like the slat/shiplap photos — its offset rows leave gaps at any
-         repeat boundary. Shown once, scaled to cover, instead of tiled. */
       s.backgroundImage='url("'+stoneBoards[state.board].tex+'")';s.backgroundColor="#fff";s.backgroundBlendMode="normal";
-      s.backgroundSize="cover";s.backgroundRepeat="no-repeat";s.backgroundPosition="center";
+      s.backgroundSize="380px auto";s.backgroundRepeat="repeat";s.backgroundPosition="center";
       return;
     }
     var tint=boardColors[state.board].tint;
