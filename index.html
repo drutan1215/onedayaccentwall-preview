@@ -279,8 +279,8 @@ header{position:sticky;top:0;z-index:50;background:rgba(23,20,15,.92);backdrop-f
 .inc .tick{color:#ffb45e;margin-right:8px}
 
 /* ---------- options ---------- */
-.opt-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px}
-@media(max-width:980px){.opt-cols{grid-template-columns:1fr 1fr}}
+.opt-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:40px}
+@media(max-width:1180px){.opt-cols{grid-template-columns:1fr 1fr}}
 @media(max-width:640px){.opt-cols{grid-template-columns:1fr}}
 img.opt-dot-wide{width:60px;height:40px;object-fit:cover;border-radius:6px;box-shadow:0 3px 8px rgba(0,0,0,.25)}
 .opt-list{display:grid;gap:12px}
@@ -433,6 +433,7 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
           <div class="chip-row" data-group="style">
             <button class="chip" data-value="slats" aria-pressed="true">Vertical Slats</button>
             <button class="chip" data-value="shiplap" aria-pressed="false">Horizontal Shiplap</button>
+            <button class="chip" data-value="stone" aria-pressed="false">Stacked Stone</button>
           </div>
         </div>
 
@@ -508,7 +509,7 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
         <picture><source srcset="images/white-shiplap-fireplace.webp" type="image/webp"><img src="images/white-shiplap-fireplace.jpg" alt="White shiplap accent wall with floating mantel and electric fireplace" loading="lazy" width="1086" height="1448"></picture>
         <div class="card-body">
           <h3>Accent Walls</h3>
-          <p>Shiplap or vertical slat panels in a range of designer finishes. A boring flat wall becomes the focal point of your home — trimmed, painted, and finished.</p>
+          <p>Shiplap, vertical slat panels, or stacked stone in a range of designer finishes. A boring flat wall becomes the focal point of your home — trimmed, painted, and finished.</p>
         </div>
       </div>
       <div class="card">
@@ -553,7 +554,7 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
     <div class="sec-head">
       <p class="eyebrow">Choose your style</p>
       <h2>Designer colors &amp; mantel finishes</h2>
-      <p>Four slat panel finishes, five shiplap colors, and five hand-finished mantel options — every combination looks intentional.</p>
+      <p>Four slat panel finishes, three stacked stone finishes, five shiplap colors, and five hand-finished mantel options — every combination looks intentional.</p>
     </div>
     <div class="opt-cols">
       <div>
@@ -563,6 +564,14 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
           <div class="opt-item"><img class="opt-dot-wide" src="images/swatch-chocolatebrown.webp" alt="Chocolate Brown slat panel" loading="lazy" width="550" height="154"><div><b>Chocolate Brown</b><span>Rich dark wood, warm undertone.</span></div></div>
           <div class="opt-item"><img class="opt-dot-wide" src="images/swatch-concrete.webp" alt="Concrete slat panel" loading="lazy" width="550" height="154"><div><b>Concrete</b><span>Cool gray, modern industrial look.</span></div></div>
           <div class="opt-item"><img class="opt-dot-wide" src="images/swatch-massypecan.webp" alt="Massy Pecan slat panel" loading="lazy" width="550" height="154"><div><b>Massy Pecan</b><span>Golden brown, natural wood texture.</span></div></div>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size:1rem;letter-spacing:.1em;margin-bottom:14px">Stacked Stone</h3>
+        <div class="opt-list">
+          <div class="opt-item"><img class="opt-dot-wide" src="images/tile-stone-travertine.jpg" alt="Philadelphia Travertine stacked stone" loading="lazy" width="525" height="123"><div><b>Philadelphia Travertine</b><span>Warm tan splitface, natural veining.</span></div></div>
+          <div class="opt-item"><img class="opt-dot-wide" src="images/tile-stone-quartzite.jpg" alt="Blue Nile Quartzite stacked stone" loading="lazy" width="524" height="120"><div><b>Blue Nile Quartzite</b><span>Cool gray with rust-colored streaks.</span></div></div>
+          <div class="opt-item"><img class="opt-dot-wide" src="images/tile-stone-slate.jpg" alt="Monterrey Black Slate stacked stone" loading="lazy" width="523" height="125"><div><b>Monterrey Black Slate</b><span>Deep charcoal, rugged texture.</span></div></div>
         </div>
       </div>
       <div>
@@ -669,14 +678,20 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
     olive:{tint:"#5a624b",label:"Olive Green",swatchBg:"#59614a"},
     walnut:{tint:"#7a5230",label:"Natural Walnut",swatchBg:"linear-gradient(135deg,#8a5a33,#6b4326)"}
   };
-  var rememberedBoard={slats:"whiteoak",other:"black"};
-  function boardBucket(style){return style==="slats"?"slats":"other"}
-  function boardLabel(){return state.style==="slats"?slatBoards[state.board].label:boardColors[state.board].label}
+  var stoneBoards={
+    travertine:{label:"Philadelphia Travertine",tex:"images/tile-stone-travertine.jpg",swatch:"images/tile-stone-travertine.jpg"},
+    quartzite:{label:"Blue Nile Quartzite",tex:"images/tile-stone-quartzite.jpg",swatch:"images/tile-stone-quartzite.jpg"},
+    slate:{label:"Monterrey Black Slate",tex:"images/tile-stone-slate.jpg",swatch:"images/tile-stone-slate.jpg"}
+  };
+  var boardSets={slats:slatBoards,stone:stoneBoards,other:boardColors};
+  var rememberedBoard={slats:"whiteoak",stone:"travertine",other:"black"};
+  function boardBucket(style){return style==="slats"?"slats":style==="stone"?"stone":"other"}
+  function boardLabel(){var b=boardBucket(state.style);return boardSets[b][state.board].label}
   function buildBoardSwatches(){
-    var bucket=boardBucket(state.style),set=bucket==="slats"?slatBoards:boardColors,html="";
+    var bucket=boardBucket(state.style),set=boardSets[bucket],photo=(bucket==="slats"||bucket==="stone"),html="";
     Object.keys(set).forEach(function(key){
       var o=set[key],pressed=key===state.board?"true":"false";
-      if(bucket==="slats"){
+      if(photo){
         html+='<button class="swatch swatch-photo" data-value="'+key+'" title="'+o.label+'" aria-label="'+o.label+'" aria-pressed="'+pressed+'" style="background-image:url(\''+o.swatch+'\')"></button>';
       }else{
         html+='<button class="swatch" data-value="'+key+'" title="'+o.label+'" aria-label="'+o.label+'" aria-pressed="'+pressed+'" style="background:'+o.swatchBg+'"></button>';
@@ -685,7 +700,7 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
     el("boardSwatches").innerHTML=html;
   }
   var mantelLabels={ashgray:"Ash Gray",darkchocolate:"Dark Chocolate",midnightblack:"Midnight Black",agedoak:"Aged Oak",mahogany:"Mahogany",none:"No mantel"};
-  var styleLabels={slats:"Vertical slats",shiplap:"Horizontal shiplap"};
+  var styleLabels={slats:"Vertical slats",shiplap:"Horizontal shiplap",stone:"Stacked stone"};
   var flames={
     orange:{tint:"",glow:"rgba(255,140,40,.4)"},
     blue:{tint:"#3f7dff",glow:"rgba(100,140,255,.38)"},
@@ -718,12 +733,20 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
     var s=accentWall.style;
     if(state.style==="slats"){
       s.backgroundImage='url("'+slatBoards[state.board].tex+'")';s.backgroundColor="#fff";s.backgroundBlendMode="normal";
-      s.backgroundSize="46% auto";
+      s.backgroundSize="46% auto";s.backgroundRepeat="repeat";s.backgroundPosition="0 0";
+      return;
+    }
+    if(state.style==="stone"){
+      /* Stacked-stone's irregular masonry silhouette can't tile seamlessly
+         like the slat/shiplap photos — its offset rows leave gaps at any
+         repeat boundary. Shown once, scaled to cover, instead of tiled. */
+      s.backgroundImage='url("'+stoneBoards[state.board].tex+'")';s.backgroundColor="#fff";s.backgroundBlendMode="normal";
+      s.backgroundSize="cover";s.backgroundRepeat="no-repeat";s.backgroundPosition="center";
       return;
     }
     var tint=boardColors[state.board].tint;
     s.backgroundImage='url("images/bg-shiplap.jpg")';s.backgroundColor=tint;s.backgroundBlendMode="multiply";
-    s.backgroundSize="118% auto";
+    s.backgroundSize="118% auto";s.backgroundRepeat="repeat";s.backgroundPosition="0 0";
   }
 
   function render(){
