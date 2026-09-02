@@ -208,7 +208,7 @@ header{position:sticky;top:0;z-index:50;background:rgba(23,20,15,.92);backdrop-f
 .shelf-top{top:24%}
 .shelf-bottom{top:58%}
 .builtin-col{position:absolute;top:6%;height:76%;width:21%;object-fit:contain;object-position:bottom;z-index:1;
-  filter:drop-shadow(4px 10px 14px rgba(0,0,0,.4));transition:opacity .3s}
+  filter:drop-shadow(4px 10px 14px rgba(0,0,0,.4));transition:opacity .3s,filter .3s}
 .builtin-left{left:2%;object-position:bottom right}
 .builtin-right{right:2%;object-position:bottom left}
 .wall-grain{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.45;mix-blend-mode:soft-light;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E")}
@@ -503,6 +503,10 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
             <button class="chip" data-value="shelves" aria-pressed="false">Floating Shelves</button>
             <button class="chip" data-value="builtins" aria-pressed="false">Built-In Shelving</button>
           </div>
+          <div class="swatch-row" data-group="builtinColor" id="builtinColorRow" style="display:none;margin-top:10px">
+            <button class="swatch" data-value="white" title="White" aria-label="White" aria-pressed="true" style="background:#f4f0e6"></button>
+            <button class="swatch" data-value="black" title="Black" aria-label="Black" aria-pressed="false" style="background:#232323"></button>
+          </div>
         </div>
 
         <div class="builder-cta">
@@ -681,7 +685,7 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
 
 <script>
 (function(){
-  var state={style:"slats",board:"whiteoak",mantel:"ashgray",fireplace:"60",flame:"orange",tv:"65",addons:[]};
+  var state={style:"slats",board:"whiteoak",mantel:"ashgray",fireplace:"60",flame:"orange",tv:"65",addons:[],builtinColor:"white"};
 
   var slatBoards={
     whiteoak:{label:"White Oak",tex:"images/tile-whiteoak.jpg",swatch:"images/swatch-whiteoak.webp"},
@@ -747,7 +751,8 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
       fireplace=el("fireplace"),fpImg=el("fpImg"),fpTint=el("fpTint"),fpGlow=el("fpGlow"),summary=el("summaryLine"),
       edgeChip=el("edgeChip"),
       shelves=[el("shelfLT"),el("shelfLB"),el("shelfRT"),el("shelfRB")],
-      builtins=[el("builtinLeft"),el("builtinRight")];
+      builtins=[el("builtinLeft"),el("builtinRight")],
+      builtinColorRow=el("builtinColorRow");
 
   function applyWall(){
     var s=accentWall.style;
@@ -793,7 +798,14 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
       sh.classList.toggle("hidden",!hasShelves);
       if(sh.getAttribute("src")!==shelfSrc)sh.setAttribute("src",shelfSrc);
     });
-    builtins.forEach(function(b){b.classList.toggle("hidden",!hasBuiltins)});
+    var builtinSuffix=state.builtinColor==="black"?"-black":"";
+    var builtinSides=["left","right"];
+    builtins.forEach(function(b,idx){
+      b.classList.toggle("hidden",!hasBuiltins);
+      var bsrc="images/builtin-"+builtinSides[idx]+builtinSuffix+".webp";
+      if(b.getAttribute("src")!==bsrc)b.setAttribute("src",bsrc);
+    });
+    builtinColorRow.style.display=hasBuiltins?"flex":"none";
     var wide=hasShelves||hasBuiltins;
     room.classList.toggle("wide",wide);
     accentWall.style.left=wide?"23%":"16%";
@@ -823,7 +835,9 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
     ];
     if(state.addons.length){
       var names={edge:"LED edge backlight",mantelGlow:"under-mantel LED",shelves:"floating shelves",builtins:"built-in shelving"};
-      parts.push("Add-ons: "+state.addons.map(function(a){return names[a]}).join(", "));
+      parts.push("Add-ons: "+state.addons.map(function(a){
+        return a==="builtins"?"built-in shelving ("+state.builtinColor+")":names[a];
+      }).join(", "));
     }
     return parts.join("\n");
   }
