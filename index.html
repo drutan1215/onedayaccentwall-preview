@@ -195,7 +195,7 @@ header{position:sticky;top:0;z-index:50;background:rgba(23,20,15,.92);backdrop-f
 
 /* preview room */
 .room-card{background:#0f0d0b;border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:14px;box-shadow:0 30px 60px rgba(0,0,0,.45)}
-.room{position:relative;aspect-ratio:4/3;border-radius:6px;overflow:hidden;background:#e9e5dc;transition:aspect-ratio .3s}
+.room{position:relative;aspect-ratio:4/3;border-radius:6px;overflow:hidden;background:#d6d6d6;transition:aspect-ratio .3s}
 .room.wide{aspect-ratio:16/9}
 .room::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:6;background:radial-gradient(135% 105% at 50% 28%,transparent 55%,rgba(0,0,0,.22))}
 .room-wall{position:absolute;inset:0 0 18% 0;transition:background .3s}
@@ -207,6 +207,10 @@ header{position:sticky;top:0;z-index:50;background:rgba(23,20,15,.92);backdrop-f
 .shelf-right{right:2%;width:20%}
 .shelf-top{top:24%}
 .shelf-bottom{top:58%}
+.builtin-col{position:absolute;top:6%;height:76%;width:21%;object-fit:contain;object-position:bottom;z-index:1;
+  filter:drop-shadow(4px 10px 14px rgba(0,0,0,.4));transition:opacity .3s}
+.builtin-left{left:2%;object-position:bottom right}
+.builtin-right{right:2%;object-position:bottom left}
 .wall-grain{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:.45;mix-blend-mode:soft-light;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E")}
 .wall-shade{position:absolute;inset:0;z-index:2;pointer-events:none;background:
   radial-gradient(120% 90% at 50% -10%,rgba(255,255,255,.16),transparent 55%),
@@ -416,6 +420,8 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
           <img class="float-shelf shelf-left shelf-bottom hidden" id="shelfLB" src="images/mantel-ashgray.webp" alt="Floating shelf" width="1002" height="124">
           <img class="float-shelf shelf-right shelf-top hidden" id="shelfRT" src="images/mantel-ashgray.webp" alt="Floating shelf" width="1002" height="124">
           <img class="float-shelf shelf-right shelf-bottom hidden" id="shelfRB" src="images/mantel-ashgray.webp" alt="Floating shelf" width="1002" height="124">
+          <img class="builtin-col builtin-left hidden" id="builtinLeft" src="images/builtin-left.webp" alt="Built-in shelving" width="326" height="990">
+          <img class="builtin-col builtin-right hidden" id="builtinRight" src="images/builtin-right.webp" alt="Built-in shelving" width="324" height="990">
           <div class="accent-wall" id="accentWall" style="background-image:url('images/tile-whiteoak.jpg');background-color:#fff;background-blend-mode:normal;background-size:46% auto">
             <div class="wall-grain"></div>
             <div class="wall-shade"></div>
@@ -495,6 +501,7 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
             <button class="chip" id="edgeChip" data-value="edge" aria-pressed="false">LED Edge Backlight</button>
             <button class="chip" data-value="mantelGlow" aria-pressed="false">Under-Mantel LED</button>
             <button class="chip" data-value="shelves" aria-pressed="false">Floating Shelves</button>
+            <button class="chip" data-value="builtins" aria-pressed="false">Built-In Shelving</button>
           </div>
         </div>
 
@@ -739,7 +746,8 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
   var room=el("room"),accentWall=el("accentWall"),roomWall=el("roomWall"),tv=el("tv"),mantel=el("mantel"),
       fireplace=el("fireplace"),fpImg=el("fpImg"),fpTint=el("fpTint"),fpGlow=el("fpGlow"),summary=el("summaryLine"),
       edgeChip=el("edgeChip"),
-      shelves=[el("shelfLT"),el("shelfLB"),el("shelfRT"),el("shelfRB")];
+      shelves=[el("shelfLT"),el("shelfLB"),el("shelfRT"),el("shelfRB")],
+      builtins=[el("builtinLeft"),el("builtinRight")];
 
   function applyWall(){
     var s=accentWall.style;
@@ -760,7 +768,7 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
 
   function render(){
     applyWall();
-    roomWall.style.background="#f2efe8";
+    roomWall.style.background="#d6d6d6";
 
     if(state.style!=="slats"){
       var i=state.addons.indexOf("edge");
@@ -779,14 +787,17 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
     }
 
     var hasShelves=state.addons.indexOf("shelves")>-1;
+    var hasBuiltins=state.addons.indexOf("builtins")>-1;
     var shelfSrc="images/mantel-"+(state.mantel==="none"?"ashgray":state.mantel)+".webp";
     shelves.forEach(function(sh){
       sh.classList.toggle("hidden",!hasShelves);
       if(sh.getAttribute("src")!==shelfSrc)sh.setAttribute("src",shelfSrc);
     });
-    room.classList.toggle("wide",hasShelves);
-    accentWall.style.left=hasShelves?"23%":"16%";
-    accentWall.style.right=hasShelves?"23%":"16%";
+    builtins.forEach(function(b){b.classList.toggle("hidden",!hasBuiltins)});
+    var wide=hasShelves||hasBuiltins;
+    room.classList.toggle("wide",wide);
+    accentWall.style.left=wide?"23%":"16%";
+    accentWall.style.right=wide?"23%":"16%";
     if(state.fireplace==="none"){fireplace.classList.add("hidden")}else{
       fireplace.classList.remove("hidden");
       fireplace.style.width=fpPos[state.fireplace].w;fireplace.style.top=fpPos[state.fireplace].t;
@@ -811,7 +822,7 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
       "TV: "+(state.tv==="none"?"No TV":state.tv+'"')
     ];
     if(state.addons.length){
-      var names={edge:"LED edge backlight",mantelGlow:"under-mantel LED",shelves:"floating shelves"};
+      var names={edge:"LED edge backlight",mantelGlow:"under-mantel LED",shelves:"floating shelves",builtins:"built-in shelving"};
       parts.push("Add-ons: "+state.addons.map(function(a){return names[a]}).join(", "));
     }
     return parts.join("\n");
@@ -826,7 +837,17 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
       if(multi){
         var i=state.addons.indexOf(val);
         if(i>-1){state.addons.splice(i,1);btn.setAttribute("aria-pressed","false")}
-        else{state.addons.push(val);btn.setAttribute("aria-pressed","true")}
+        else{
+          var exclusive={shelves:"builtins",builtins:"shelves"};
+          if(exclusive[val]){
+            var j=state.addons.indexOf(exclusive[val]);
+            if(j>-1){
+              state.addons.splice(j,1);
+              group.querySelector('[data-value="'+exclusive[val]+'"]').setAttribute("aria-pressed","false");
+            }
+          }
+          state.addons.push(val);btn.setAttribute("aria-pressed","true")
+        }
       }else{
         state[key]=val;
         group.querySelectorAll("[data-value]").forEach(function(b){b.setAttribute("aria-pressed",b===btn?"true":"false")});
