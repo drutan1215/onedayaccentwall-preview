@@ -201,7 +201,7 @@ header{position:sticky;top:0;z-index:50;background:rgba(23,20,15,.92);backdrop-f
 .room-wall{position:absolute;inset:0 0 18% 0;transition:background .3s}
 .room-floor{position:absolute;left:0;right:0;bottom:0;height:18%;background:linear-gradient(180deg,rgba(0,0,0,.28),rgba(0,0,0,0) 30%),url("images/tex-floor.jpg");background-size:auto,auto 115%}
 .room-base{position:absolute;left:0;right:0;bottom:18%;height:2.2%;background:#f6f4ef;box-shadow:0 1px 2px rgba(0,0,0,.25)}
-.accent-wall{position:absolute;left:16%;right:16%;top:6%;bottom:18%;transition:left .3s,right .3s,background .3s;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12), 12px 0 24px -12px rgba(0,0,0,.35), -12px 0 24px -12px rgba(0,0,0,.35)}
+.accent-wall{position:absolute;left:16%;right:16%;top:6%;bottom:18%;transition:left .3s,right .3s;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12), 12px 0 24px -12px rgba(0,0,0,.35), -12px 0 24px -12px rgba(0,0,0,.35)}
 .float-shelf{position:absolute;height:3.2%;object-fit:cover;border-radius:1px;z-index:1;filter:drop-shadow(0 7px 6px rgba(0,0,0,.4));transition:opacity .3s}
 .shelf-left{left:2%;width:20%}
 .shelf-right{right:2%;width:20%}
@@ -450,6 +450,7 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
             <button class="chip" data-value="slats" aria-pressed="true">Vertical Slats</button>
             <button class="chip" data-value="shiplap" aria-pressed="false">Horizontal Shiplap</button>
             <button class="chip" data-value="stone" aria-pressed="false">Stacked Stone</button>
+            <button class="chip" data-value="plaster" aria-pressed="false">Venetian Plaster</button>
           </div>
         </div>
 
@@ -706,12 +707,17 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
     quartzite:{label:"Blue Nile Quartzite",tex:"images/tile-stone-quartzite.jpg",swatch:"images/tile-stone-quartzite.jpg"},
     slate:{label:"Monterrey Black Slate",tex:"images/tile-stone-slate.jpg",swatch:"images/tile-stone-slate.jpg"}
   };
-  var boardSets={slats:slatBoards,stone:stoneBoards,other:boardColors};
-  var rememberedBoard={slats:"whiteoak",stone:"travertine",other:"black"};
-  function boardBucket(style){return style==="slats"?"slats":style==="stone"?"stone":"other"}
+  var plasterBoards={
+    fossil:{label:"Fossil Stone",tex:"images/tile-plaster-fossil.jpg",swatch:"images/tile-plaster-fossil.jpg"},
+    limestone:{label:"Venetian Limestone",tex:"images/tile-plaster-limestone.jpg",swatch:"images/tile-plaster-limestone.jpg"},
+    sandstone:{label:"Warm Sandstone",tex:"images/tile-plaster-sandstone.jpg",swatch:"images/tile-plaster-sandstone.jpg"}
+  };
+  var boardSets={slats:slatBoards,stone:stoneBoards,plaster:plasterBoards,other:boardColors};
+  var rememberedBoard={slats:"whiteoak",stone:"travertine",plaster:"fossil",other:"black"};
+  function boardBucket(style){return style==="slats"?"slats":style==="stone"?"stone":style==="plaster"?"plaster":"other"}
   function boardLabel(){var b=boardBucket(state.style);return boardSets[b][state.board].label}
   function buildBoardSwatches(){
-    var bucket=boardBucket(state.style),set=boardSets[bucket],photo=(bucket==="slats"||bucket==="stone"),html="";
+    var bucket=boardBucket(state.style),set=boardSets[bucket],photo=(bucket==="slats"||bucket==="stone"||bucket==="plaster"),html="";
     Object.keys(set).forEach(function(key){
       var o=set[key],pressed=key===state.board?"true":"false";
       if(photo){
@@ -723,7 +729,7 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
     el("boardSwatches").innerHTML=html;
   }
   var mantelLabels={ashgray:"Ash Gray",darkchocolate:"Dark Chocolate",midnightblack:"Midnight Black",agedoak:"Aged Oak",mahogany:"Mahogany",none:"No mantel"};
-  var styleLabels={slats:"Vertical slats",shiplap:"Horizontal shiplap",stone:"Stacked stone"};
+  var styleLabels={slats:"Vertical slats",shiplap:"Horizontal shiplap",stone:"Stacked stone",plaster:"Venetian plaster"};
   var flames={
     orange:{tint:"",glow:"rgba(255,140,40,.4)"},
     blue:{tint:"#3f7dff",glow:"rgba(100,140,255,.38)"},
@@ -765,6 +771,11 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
     if(state.style==="stone"){
       s.backgroundImage='url("'+stoneBoards[state.board].tex+'")';s.backgroundColor="#fff";s.backgroundBlendMode="normal";
       s.backgroundSize="70% auto";s.backgroundRepeat="repeat";s.backgroundPosition="0 0";
+      return;
+    }
+    if(state.style==="plaster"){
+      s.backgroundImage='url("'+plasterBoards[state.board].tex+'")';s.backgroundColor="#fff";s.backgroundBlendMode="normal";
+      s.backgroundSize="cover";s.backgroundRepeat="no-repeat";s.backgroundPosition="center";
       return;
     }
     var tint=boardColors[state.board].tint;
