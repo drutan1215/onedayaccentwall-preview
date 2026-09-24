@@ -193,6 +193,26 @@ header{position:sticky;top:0;z-index:50;background:rgba(23,20,15,.92);backdrop-f
 .builder{display:grid;grid-template-columns:1.25fr .9fr;gap:28px;align-items:start}
 @media(max-width:920px){.builder{grid-template-columns:1fr;max-width:800px;margin:0 auto}}
 
+.preview-col{display:flex;flex-direction:column;gap:20px}
+
+/* pricing card */
+.price-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:20px 22px;color:var(--ink);box-shadow:0 24px 50px rgba(0,0,0,.35)}
+.price-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.price-label{font-family:'Oswald',sans-serif;text-transform:uppercase;font-size:.74rem;letter-spacing:.14em;font-weight:600;color:var(--ink-soft)}
+.price-range{font-family:'Oswald',sans-serif;font-size:1.5rem;font-weight:700;color:var(--ember-deep)}
+.price-toggle{display:block;background:none;border:none;padding:0;margin-bottom:10px;font-family:'Inter',sans-serif;font-size:.82rem;font-weight:600;color:var(--ember-deep);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.price-lines{display:flex;flex-direction:column;gap:7px;padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:12px}
+.price-lines[hidden]{display:none}
+.price-line{display:flex;justify-content:space-between;gap:12px;font-size:.85rem}
+.price-line span:first-child{color:var(--ink-soft)}
+.price-line span:last-child{font-weight:600;white-space:nowrap}
+.price-line.call span:last-child{color:var(--ember-deep)}
+.price-financing{font-size:.85rem;margin-bottom:8px}
+.price-financing a{color:var(--ember-deep);font-weight:600}
+.price-note{font-size:.78rem;color:var(--ink-soft)}
+
+/* wall size */
+
 /* preview room */
 .room-card{background:#0f0d0b;border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:14px;box-shadow:0 30px 60px rgba(0,0,0,.45)}
 .room{position:relative;aspect-ratio:4/3;border-radius:6px;overflow:hidden;background:#d6d6d6;transition:aspect-ratio .3s}
@@ -411,6 +431,7 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
   <div class="wrap">
     <p class="builder-lead">Design your accent wall right here — pick your boards, colors, mantel, fireplace, and TV. We build it in your home in a single day. No major renovation, financing available.</p>
     <div class="builder">
+      <div class="preview-col">
       <div class="room-card">
         <div class="room" id="room" role="img" aria-label="Live preview of your accent wall design">
           <div class="room-wall" id="roomWall"></div>
@@ -440,12 +461,38 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
         </div>
       </div>
 
+      <div class="price-card" id="priceCard">
+        <div class="price-head">
+          <span class="price-label">Estimated price</span>
+          <span class="price-range" id="priceRange">$0 – $0</span>
+        </div>
+        <button class="price-toggle" id="priceToggle" type="button" aria-expanded="false">Show price breakdown</button>
+        <div class="price-lines" id="priceLines" hidden></div>
+        <div class="price-financing" id="priceFinancing"></div>
+        <div class="price-note" id="priceNote"></div>
+      </div>
+      </div>
+
       <div class="controls" aria-label="Wall design options">
         <h2>Build your wall</h2>
         <p>Every choice updates the preview. Send us your design for a free quote.</p>
 
         <div class="ctl-group">
-          <div class="ctl-label">1 · Wall style</div>
+          <div class="ctl-label">1 · Wall size</div>
+          <div class="chip-row" data-group="width">
+            <button class="chip" data-value="8" aria-pressed="false">8 ft wide</button>
+            <button class="chip" data-value="10" aria-pressed="false">10 ft wide</button>
+            <button class="chip" data-value="12" aria-pressed="true">12 ft wide</button>
+          </div>
+          <div class="chip-row" data-group="ceilingHeight" style="margin-top:10px">
+            <button class="chip" data-value="8" aria-pressed="false">8 ft ceiling</button>
+            <button class="chip" data-value="9" aria-pressed="true">9 ft ceiling</button>
+            <button class="chip" data-value="10" aria-pressed="false">10 ft ceiling</button>
+          </div>
+        </div>
+
+        <div class="ctl-group">
+          <div class="ctl-label">2 · Wall style</div>
           <div class="chip-row" data-group="style">
             <button class="chip" data-value="slats" aria-pressed="true">Vertical Slats</button>
             <button class="chip" data-value="shiplap" aria-pressed="false">Horizontal Shiplap</button>
@@ -455,12 +502,12 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
         </div>
 
         <div class="ctl-group">
-          <div class="ctl-label">2 · Board color</div>
+          <div class="ctl-label">3 · Board color</div>
           <div class="swatch-row" data-group="board" id="boardSwatches"></div>
         </div>
 
         <div class="ctl-group">
-          <div class="ctl-label">3 · Floating mantel</div>
+          <div class="ctl-label">4 · Floating mantel</div>
           <div class="chip-row" data-group="mantel">
             <button class="chip" data-value="ashgray" aria-pressed="true">Ash Gray</button>
             <button class="chip" data-value="darkchocolate" aria-pressed="false">Dark Chocolate</button>
@@ -472,10 +519,11 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
         </div>
 
         <div class="ctl-group">
-          <div class="ctl-label">4 · Electric fireplace <small>included</small></div>
+          <div class="ctl-label">5 · Electric fireplace <small>included</small></div>
           <div class="chip-row" data-group="fireplace">
-            <button class="chip" data-value="60" aria-pressed="true">60&quot;</button>
-            <button class="chip" data-value="72" aria-pressed="false">72&quot;</button>
+            <button class="chip" data-value="base" aria-pressed="false">Budget Saver</button>
+            <button class="chip" data-value="preferred" aria-pressed="true">Preferred</button>
+            <button class="chip" data-value="premier" aria-pressed="false">Premier</button>
             <button class="chip" data-value="none" aria-pressed="false">None</button>
           </div>
           <div class="chip-row" data-group="flame" style="margin-top:8px">
@@ -486,7 +534,7 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
         </div>
 
         <div class="ctl-group">
-          <div class="ctl-label">5 · TV size</div>
+          <div class="ctl-label">6 · TV size</div>
           <div class="chip-row" data-group="tv">
             <button class="chip" data-value="55" aria-pressed="false">55&quot;</button>
             <button class="chip" data-value="65" aria-pressed="true">65&quot;</button>
@@ -497,10 +545,10 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
         </div>
 
         <div class="ctl-group">
-          <div class="ctl-label">6 · Extras <small>optional</small></div>
+          <div class="ctl-label">7 · Extras <small>optional</small></div>
           <div class="chip-row" data-group="addons" data-multi="true">
             <button class="chip" id="edgeChip" data-value="edge" aria-pressed="false">LED Edge Backlight</button>
-            <button class="chip" data-value="mantelGlow" aria-pressed="false">Under-Mantel LED</button>
+            <button class="chip" id="mantelGlowChip" data-value="mantelGlow" aria-pressed="false">Under-Mantel LED</button>
             <button class="chip" data-value="shelves" aria-pressed="false">Floating Shelves</button>
             <button class="chip" data-value="builtins" aria-pressed="false">Built-In Shelving</button>
           </div>
@@ -687,7 +735,7 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
 
 <script>
 (function(){
-  var state={style:"slats",board:"whiteoak",mantel:"ashgray",fireplace:"60",flame:"orange",tv:"65",addons:[],builtinColor:"white"};
+  var state={style:"slats",board:"whiteoak",mantel:"ashgray",fireplace:"preferred",flame:"orange",tv:"65",addons:[],builtinColor:"white",width:"12",ceilingHeight:"9"};
 
   var slatBoards={
     whiteoak:{label:"White Oak",tex:"images/tile-whiteoak.jpg",swatch:"images/swatch-whiteoak.webp"},
@@ -736,8 +784,9 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
     multi:{tint:"linear-gradient(90deg,#ff8c1a 0%,#b06bff 28%,#4f8cff 55%,#ff8c1a 80%,#b06bff 100%)",glow:"rgba(190,130,255,.35)"}
   };
   var flameLabels={orange:"orange flame",blue:"cool blue flame",multi:"multicolor flame"};
+  var fireplaceLabels={base:"Budget Saver",preferred:'Preferred (Legend Flame 60")',premier:'Premier (Sideline Elite 60")'};
   var tvWidths={55:46,65:54,75:62,85:70};
-  var fpPos={60:{w:"56%",t:"68.5%"},72:{w:"72%",t:"72%"}};
+  var FP_VISUAL={w:"56%",t:"68.5%"};
   /* accent-wall width/height ratio, derived from .room's 4:3 aspect-ratio and the
      .accent-wall inset (16% each side, 6% top, 18% bottom) — used to convert the
      tv image's own aspect ratio into a height percentage so it can be centered
@@ -747,7 +796,7 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
   function positionTv(){
     var widthPct=tvWidths[state.tv];
     var heightPct=AW_RATIO*TV_IMG_RATIO*widthPct;
-    var bound=state.mantel!=="none"?52:(state.fireplace!=="none"?parseFloat(fpPos[state.fireplace].t):92);
+    var bound=state.mantel!=="none"?52:(state.fireplace!=="none"?parseFloat(FP_VISUAL.t):92);
     var topPct=Math.max(0,(bound-heightPct)/2);
     tv.style.width=widthPct+"%";
     tv.style.top=topPct+"%";
@@ -757,9 +806,19 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
   var room=el("room"),accentWall=el("accentWall"),roomWall=el("roomWall"),tv=el("tv"),mantel=el("mantel"),
       fireplace=el("fireplace"),fpImg=el("fpImg"),fpTint=el("fpTint"),fpGlow=el("fpGlow"),summary=el("summaryLine"),
       edgeChip=el("edgeChip"),
+      mantelGlowChip=el("mantelGlowChip"),
       shelves=[el("shelfLT"),el("shelfLB"),el("shelfRT"),el("shelfRB")],
       builtins=[el("builtinLeft"),el("builtinRight")],
-      builtinColorRow=el("builtinColorRow");
+      builtinColorRow=el("builtinColorRow"),
+      priceRange=el("priceRange"),priceLines=el("priceLines"),priceFinancing=el("priceFinancing"),priceNote=el("priceNote"),
+      priceToggle=el("priceToggle");
+
+  priceToggle.addEventListener("click",function(){
+    var expanded=priceToggle.getAttribute("aria-expanded")==="true";
+    priceLines.hidden=expanded;
+    priceToggle.setAttribute("aria-expanded",String(!expanded));
+    priceToggle.textContent=expanded?"Show price breakdown":"Hide price breakdown";
+  });
 
   function applyWall(){
     var s=accentWall.style;
@@ -803,6 +862,14 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
       if(mantel.getAttribute("src")!==msrc)mantel.setAttribute("src",msrc);
     }
 
+    if(state.mantel==="none"){
+      var gi=state.addons.indexOf("mantelGlow");
+      if(gi>-1){state.addons.splice(gi,1);mantelGlowChip.setAttribute("aria-pressed","false")}
+      mantelGlowChip.style.display="none";
+    }else{
+      mantelGlowChip.style.display="";
+    }
+
     var hasShelves=state.addons.indexOf("shelves")>-1;
     var hasBuiltins=state.addons.indexOf("builtins")>-1;
     var shelfSrc="images/mantel-"+(state.mantel==="none"?"ashgray":state.mantel)+".webp";
@@ -824,8 +891,8 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
     accentWall.style.right=wide?"23%":"16%";
     if(state.fireplace==="none"){fireplace.classList.add("hidden")}else{
       fireplace.classList.remove("hidden");
-      fireplace.style.width=fpPos[state.fireplace].w;fireplace.style.top=fpPos[state.fireplace].t;
-      var fsrc="images/fireplace-"+state.fireplace+".webp";
+      fireplace.style.width=FP_VISUAL.w;fireplace.style.top=FP_VISUAL.t;
+      var fsrc="images/fireplace-60.webp";
       if(fpImg.getAttribute("src")!==fsrc)fpImg.setAttribute("src",fsrc);
       var fl=flames[state.flame];
       if(fl.tint){fpTint.style.background=fl.tint;fpTint.style.display="block"}else{fpTint.style.display="none"}
@@ -835,14 +902,16 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
     mantel.classList.toggle("glow-under",state.addons.indexOf("mantelGlow")>-1 && state.mantel!=="none");
 
     summary.textContent=styleLabels[state.style]+" · "+boardLabel();
+    renderPricing();
   }
 
   function designText(){
     var parts=[
+      "Wall size: "+state.width+"ft wide, "+state.ceilingHeight+"ft ceiling",
       "Wall style: "+styleLabels[state.style],
       "Board color: "+boardLabel(),
       "Mantel: "+mantelLabels[state.mantel],
-      "Fireplace: "+(state.fireplace==="none"?"None":state.fireplace+'" with '+flameLabels[state.flame]),
+      "Fireplace: "+(state.fireplace==="none"?"None":fireplaceLabels[state.fireplace]+' with '+flameLabels[state.flame]),
       "TV: "+(state.tv==="none"?"No TV":state.tv+'"')
     ];
     if(state.addons.length){
@@ -887,6 +956,107 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
       render();
     });
   });
+
+  /* Pricing calculator — internal cost math (labor/markup/margin) stays
+     server-side of the customer's view: only sell-price line items and
+     the blended range/financing figures are ever rendered. Reference:
+     pricing-calculator-build-spec.md (not deployed — keep out of the
+     published site when this goes live). */
+  var PRICE_CFG={
+    shiplapBoard:20,
+    slatSqft:6,stoneSqft:12,venetian:1500,drywallPrep:750,
+    goboard:57.98,mortar:50,
+    plywoodSheet:30,twoByFour:6,
+    paint:150,demo:75,disposal:75,gas:50,
+    mantel:300,
+    fire:{base:300,preferred:700,premier:1300},
+    fireOutlet:150,tvOutlet:150,tvMount:150,
+    extras:{ledEdge:1199,ledMantel:1000},
+    shelf:150,
+    labor:35,crew:2,hours:{slats:10,shiplap:10,stone:20,plaster:10},
+    markup:0.20,margin:0.35,
+    range:0.07,months:60,apr:0.0999
+  };
+  function moneyM(n){return n*(1+PRICE_CFG.markup)/(1-PRICE_CFG.margin)}
+  function moneyL(n){return n/(1-PRICE_CFG.margin)}
+  function fmtMoney(n){return "$"+Math.round(n).toLocaleString("en-US")}
+
+  function wallMaterialCost(w,h,sqft){
+    if(state.style==="slats")return sqft*PRICE_CFG.slatSqft;
+    if(state.style==="stone")return sqft*PRICE_CFG.stoneSqft;
+    if(state.style==="plaster")return PRICE_CFG.venetian+PRICE_CFG.drywallPrep;
+    var rows=Math.ceil((h*12)/7.25),cols=Math.ceil(w/8);
+    return Math.ceil(rows*cols*1.1)*PRICE_CFG.shiplapBoard;
+  }
+
+  function calcPricing(){
+    var w=parseFloat(state.width),h=parseFloat(state.ceilingHeight),sqft=w*h;
+    var material=wallMaterialCost(w,h,sqft);
+    var plywood=state.style==="slats"?Math.ceil((sqft/32)*1.1)*PRICE_CFG.plywoodSheet:0;
+    var stoneBacker=state.style==="stone"?(Math.ceil((sqft/32)*1.1)*PRICE_CFG.goboard+Math.ceil((sqft/75)*1.1)*PRICE_CFG.mortar):0;
+    var studs=Math.floor((w*12)/16)+1,studRows=Math.ceil(h/8),plates=Math.ceil((w*2)/8);
+    var lumber=Math.ceil((studs*studRows+plates)*1.1)*PRICE_CFG.twoByFour;
+    var hours=PRICE_CFG.hours[state.style];
+    var labor=PRICE_CFG.labor*PRICE_CFG.crew*hours;
+    var jobCosts=PRICE_CFG.demo+PRICE_CFG.disposal+PRICE_CFG.gas;
+    var wallSell=moneyM(material+plywood+stoneBacker+lumber+PRICE_CFG.paint)+moneyL(jobCosts+labor);
+
+    var lines=[];
+    var wallLabel=styleLabels[state.style]+(state.style==="stone"?" (2-day install)":"");
+    lines.push({label:wallLabel,amount:wallSell});
+    var total=wallSell;
+
+    if(state.mantel!=="none"){
+      lines.push({label:"Floating mantel",amount:PRICE_CFG.mantel});
+      total+=PRICE_CFG.mantel;
+    }
+    if(state.fireplace!=="none"){
+      var fireSell=PRICE_CFG.fire[state.fireplace]+moneyL(PRICE_CFG.fireOutlet);
+      lines.push({label:"Electric fireplace ("+fireplaceLabels[state.fireplace]+")",amount:fireSell});
+      total+=fireSell;
+    }
+    if(state.tv!=="none"){
+      var tvSell=moneyL(PRICE_CFG.tvOutlet+PRICE_CFG.tvMount);
+      lines.push({label:"TV mount & outlet",amount:tvSell});
+      total+=tvSell;
+    }
+    if(state.addons.indexOf("edge")>-1){
+      lines.push({label:"LED edge backlight",amount:PRICE_CFG.extras.ledEdge});
+      total+=PRICE_CFG.extras.ledEdge;
+    }
+    if(state.addons.indexOf("mantelGlow")>-1&&state.mantel!=="none"){
+      lines.push({label:"Under-mantel LED",amount:PRICE_CFG.extras.ledMantel});
+      total+=PRICE_CFG.extras.ledMantel;
+    }
+    if(state.addons.indexOf("shelves")>-1){
+      var shelfSell=4*PRICE_CFG.shelf;
+      lines.push({label:"Floating shelves (4)",amount:shelfSell});
+      total+=shelfSell;
+    }
+    var callForPricing=state.addons.indexOf("builtins")>-1;
+
+    var lo=Math.round((total*(1-PRICE_CFG.range))/50)*50;
+    var hi=Math.round((total*(1+PRICE_CFG.range))/50)*50;
+    var r=PRICE_CFG.apr/12;
+    var monthly=total*r/(1-Math.pow(1+r,-PRICE_CFG.months));
+
+    return{lines:lines,lo:lo,hi:hi,monthly:monthly,callForPricing:callForPricing,twoDay:state.style==="stone"};
+  }
+
+  function renderPricing(){
+    var p=calcPricing();
+    priceRange.textContent=fmtMoney(p.lo)+" – "+fmtMoney(p.hi)+(p.callForPricing?"+":"");
+    var html="";
+    p.lines.forEach(function(ln){
+      html+='<div class="price-line"><span>'+ln.label+'</span><span>'+fmtMoney(ln.amount)+'</span></div>';
+    });
+    if(p.callForPricing){
+      html+='<div class="price-line call"><span>Built-in shelving</span><span>Call for pricing</span></div>';
+    }
+    priceLines.innerHTML=html;
+    priceFinancing.innerHTML="As low as "+fmtMoney(p.monthly)+"/mo for 60 months"+(p.callForPricing?' · <a href="tel:3302177564">Call 330-217-7564</a> for built-in pricing':"");
+    priceNote.textContent=(p.twoDay?"Stone is a two-day install. ":"Installed in one day. ")+"Final price confirmed after we measure.";
+  }
 
   buildBoardSwatches();
 
