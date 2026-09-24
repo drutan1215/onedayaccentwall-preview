@@ -973,7 +973,7 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
     tvOutlet:150,tvMount:150,
     extras:{ledEdge:1199,ledMantel:1000},
     shelf:150,
-    labor:35,crew:2,hours:{slats:10,shiplap:10,stone:20,plaster:10},
+    labor:35,crew:2,hours:{slats:10,shiplap:10,stone:20,plaster:50},
     markup:0.20,margin:0.35,
     range:0.07,months:60,apr:0.0999
   };
@@ -1001,8 +1001,9 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
     var jobCosts=PRICE_CFG.demo+PRICE_CFG.disposal+PRICE_CFG.gas;
     var wallSell=moneyM(material+plywood+stoneBacker+lumber+PRICE_CFG.paint)+moneyL(jobCosts+labor);
 
+    var installNotes={stone:" (2-day install)",plaster:" (5-day install)"};
     var lines=[];
-    var wallLabel=styleLabels[state.style]+(state.style==="stone"?" (2-day install)":"");
+    var wallLabel=styleLabels[state.style]+(installNotes[state.style]||"");
     lines.push({label:wallLabel,amount:wallSell});
     var total=wallSell;
 
@@ -1017,7 +1018,7 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
     }
     if(state.tv!=="none"){
       var tvSell=moneyL(PRICE_CFG.tvOutlet+PRICE_CFG.tvMount);
-      lines.push({label:"TV mount & outlet",amount:tvSell});
+      lines.push({label:"Hang TV and install 2 additional outlets",amount:tvSell});
       total+=tvSell;
     }
     if(state.addons.indexOf("edge")>-1){
@@ -1040,7 +1041,9 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
     var r=PRICE_CFG.apr/12;
     var monthly=total*r/(1-Math.pow(1+r,-PRICE_CFG.months));
 
-    return{lines:lines,lo:lo,hi:hi,monthly:monthly,callForPricing:callForPricing,twoDay:state.style==="stone"};
+    var installLine={stone:"Stone is a two-day install.",plaster:"Venetian plaster is a five-day install."}[state.style]||"Installed in one day.";
+
+    return{lines:lines,lo:lo,hi:hi,monthly:monthly,callForPricing:callForPricing,installLine:installLine};
   }
 
   function renderPricing(){
@@ -1055,7 +1058,7 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
     }
     priceLines.innerHTML=html;
     priceFinancing.innerHTML="As low as "+fmtMoney(p.monthly)+"/mo for 60 months"+(p.callForPricing?' · <a href="tel:3302177564">Call 330-217-7564</a> for built-in pricing':"");
-    priceNote.textContent=(p.twoDay?"Stone is a two-day install. ":"Installed in one day. ")+"Final price confirmed after we measure.";
+    priceNote.textContent=p.installLine+" Final price confirmed after we measure. 0% financing available.";
   }
 
   buildBoardSwatches();
