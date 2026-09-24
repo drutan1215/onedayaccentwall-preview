@@ -970,7 +970,7 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
     paint:150,demo:75,disposal:75,gas:50,
     mantel:300,
     fire:{base:300,preferred:700,premier:1300},
-    fireOutlet:150,tvOutlet:150,tvMount:150,
+    tvOutlet:150,tvMount:150,
     extras:{ledEdge:1199,ledMantel:1000},
     shelf:150,
     labor:35,crew:2,hours:{slats:10,shiplap:10,stone:20,plaster:10},
@@ -1011,7 +1011,7 @@ footer a{color:var(--ember);text-decoration:underline;text-underline-offset:2px}
       total+=PRICE_CFG.mantel;
     }
     if(state.fireplace!=="none"){
-      var fireSell=PRICE_CFG.fire[state.fireplace]+moneyL(PRICE_CFG.fireOutlet);
+      var fireSell=PRICE_CFG.fire[state.fireplace];
       lines.push({label:"Electric fireplace ("+fireplaceLabels[state.fireplace]+")",amount:fireSell});
       total+=fireSell;
     }
